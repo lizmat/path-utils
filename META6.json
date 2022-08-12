@@ -1,0 +1,29 @@
+{
+  "auth": "zef:lizmat",
+  "authors": [
+    "Elizabeth Mattijsen"
+  ],
+  "build-depends": [
+  ],
+  "depends": [
+  ],
+  "description": "low-level path introspection utility functions",
+  "license": "Artistic-2.0",
+  "name": "path-utils",
+  "perl": "6.d",
+  "provides": {
+    "path-utils": "lib/path-utils.rakumod"
+  },
+  "resources": [
+  ],
+  "source-url": "https://github.com/lizmat/path-utils.git",
+  "tags": [
+    "IO",
+    "STAT",
+    "PATH",
+    "NAUGHTY"
+  ],
+  "test-depends": [
+  ],
+  "version": "0.0.1"
+}

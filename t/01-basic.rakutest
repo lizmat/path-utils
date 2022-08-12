@@ -1,0 +1,53 @@
+use Test;
+use path-utils;
+
+plan 34;
+
+my str $file = $?FILE;
+my str $dir  = $file.IO.parent.absolute;
+
+is-deeply path-exists($file), 1, "does $file exist";
+is-deeply path-exists($dir),  1, "does $dir exist";
+is-deeply path-exists("foo"), 0, "does foo NOT exist";
+
+is-deeply path-is-regular-file($file),  1, "is $file a regular file";
+is-deeply path-is-regular-file($dir),   0, "is $dir NOT a regular file";
+is-deeply path-is-directory($dir),      1, "is $dir a directory";
+is-deeply path-is-directory($file),     0, "is $file NOT a directory";
+is-deeply path-is-device($file),        0, "is $file NOT a device";
+is-deeply path-is-device($dir),         0, "is $dir NOT a device";
+is-deeply path-is-symbolic-link($file), 0, "is $file NOT a symlink";
+is-deeply path-is-symbolic-link($dir),  0, "is $dir NOT a symlink";
+
+isa-ok path-created($file),       Num, "is $file created a Num";
+isa-ok path-accessed($file),      Num, "is $file accessed a Num";
+isa-ok path-modified($file),      Num, "is $file accessed a Num";
+isa-ok path-meta-modified($file), Num, "is $file accessed a Num";
+
+isa-ok path-uid($file), Int, "is $file uid an Int";
+isa-ok path-gid($file), Int, "is $file gid an Int";
+
+isa-ok path-inode($file), Int, "is $file inode an Int";
+isa-ok path-inode($dir),  Int, "is $dir inode an Int";
+isa-ok path-device-number($file), Int, "is $file device-number an Int";
+isa-ok path-device-number($dir),  Int, "is $dir device-number an Int";
+
+is-deeply path-mode($file), 33188 , "is $file mode an Int";
+is-deeply path-mode($dir),  16877 , "is $dir mode an Int";
+
+isa-ok path-hard-links($file), Int, "is $file hard-links an Int";
+isa-ok path-hard-links($dir),  Int, "is $dir hard-links an Int";
+
+isa-ok path-inode($file),     Int, "is $file inode an Int";
+isa-ok path-inode($dir),      Int, "is $dir inode an Int";
+isa-ok path-block-size($file), Int, "is $file block-size an Int";
+isa-ok path-block-size($dir),  Int, "is $dir block-size an Int";
+isa-ok path-blocks($file),    Int, "is $file blocks an Int";
+isa-ok path-blocks($dir),     Int, "is $dir blocks an Int";
+
+isa-ok path-filesize($file), Int, "is $file filesize an Int";
+isa-ok path-filesize($dir),  Int, "is $dir filesize an Int";
+
+is-deeply path-filesize($file), 2281, "is $file filesize ok";
+
+# vim: expandtab shiftwidth=4
