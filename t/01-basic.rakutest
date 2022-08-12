@@ -32,9 +32,6 @@ isa-ok path-inode($dir),  Int, "is $dir inode an Int";
 isa-ok path-device-number($file), Int, "is $file device-number an Int";
 isa-ok path-device-number($dir),  Int, "is $dir device-number an Int";
 
-is-deeply path-mode($file), 33188 , "is $file mode an Int";
-is-deeply path-mode($dir),  16877 , "is $dir mode an Int";
-
 isa-ok path-hard-links($file), Int, "is $file hard-links an Int";
 isa-ok path-hard-links($dir),  Int, "is $dir hard-links an Int";
 
@@ -48,6 +45,15 @@ isa-ok path-blocks($dir),     Int, "is $dir blocks an Int";
 isa-ok path-filesize($file), Int, "is $file filesize an Int";
 isa-ok path-filesize($dir),  Int, "is $dir filesize an Int";
 
-is-deeply path-filesize($file), 2281, "is $file filesize ok";
+if Rakudo::Internals.IS-WIN {
+    isa-ok path-mode($file),     Int , "is $file mode an Int";
+    isa-ok path-mode($dir),      Int , "is $dir mode an Int";
+    isa-ok path-filesize($file), Int, "is $file filesize ok";
+}
+else {
+    is-deeply path-mode($file),    33188, "is $file mode ok";
+    is-deeply path-mode($dir),     16877, "is $dir mode ok";
+    is-deeply path-filesize($file), 2516, "is $file filesize ok";
+}
 
 # vim: expandtab shiftwidth=4
