@@ -1,7 +1,7 @@
 use Test;
 use path-utils;
 
-plan 34;
+plan 52;
 
 my str $file = $?FILE;
 my str $dir  = $file.IO.parent.absolute;
@@ -45,6 +45,30 @@ isa-ok path-blocks($dir),     Int, "is $dir blocks an Int";
 isa-ok path-filesize($file), Int, "is $file filesize an Int";
 isa-ok path-filesize($dir),  Int, "is $dir filesize an Int";
 
+ ok path-is-readable($file),   "is $file readable by user";
+ ok path-is-writable($file),   "is $file writable by user";
+nok path-is-executable($file), "is $file executable by user";
+
+ ok path-is-group-readable($file),   "is $file group readable by user";
+nok path-is-group-writable($file),   "is $file group writable by user";
+nok path-is-group-executable($file), "is $file group executable by user";
+
+ ok path-is-world-readable($file),   "is $file world readable by user";
+nok path-is-world-writable($file),   "is $file world writable by user";
+nok path-is-world-executable($file), "is $file world executable by user";
+
+ ok path-is-readable($dir),   "is $dir readable by user";
+ ok path-is-writable($dir),   "is $dir writable by user";
+ ok path-is-executable($dir), "is $dir executable by user";
+
+ ok path-is-group-readable($dir),   "is $dir group readable by user";
+nok path-is-group-writable($dir),   "is $dir group writable by user";
+ ok path-is-group-executable($dir), "is $dir group executable by user";
+
+ ok path-is-world-readable($dir),   "is $dir world readable by user";
+nok path-is-world-writable($dir),   "is $dir world writable by user";
+ ok path-is-world-executable($dir), "is $dir world executable by user";
+
 if Rakudo::Internals.IS-WIN {
     isa-ok path-mode($file),     Int , "is $file mode an Int";
     isa-ok path-mode($dir),      Int , "is $dir mode an Int";
@@ -53,7 +77,7 @@ if Rakudo::Internals.IS-WIN {
 else {
     is-deeply path-mode($file),    33188, "is $file mode ok";
     is-deeply path-mode($dir),     16877, "is $dir mode ok";
-    is-deeply path-filesize($file), 2516, "is $file filesize ok";
+    is-deeply path-filesize($file), 3740, "is $file filesize ok";
 }
 
 # vim: expandtab shiftwidth=4

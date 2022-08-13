@@ -64,6 +64,36 @@ my sub path-blocks(str $path) {
     nqp::stat($path,nqp::const::STAT_PLATFORM_BLOCKS)
 }
 
+my sub path-is-readable(str $path) {
+    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),256)
+}
+my sub path-is-writable(str $path) {
+    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),128)
+}
+my sub path-is-executable(str $path) {
+    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),64)
+}
+
+my sub path-is-group-readable(str $path) {
+    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),32)
+}
+my sub path-is-group-writable(str $path) {
+    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),16)
+}
+my sub path-is-group-executable(str $path) {
+    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),8)
+}
+
+my sub path-is-world-readable(str $path) {
+    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),4)
+}
+my sub path-is-world-writable(str $path) {
+    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),2)
+}
+my sub path-is-world-executable(str $path) {
+    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),1)
+}
+
 my sub EXPORT(*@names) {
     Map.new: UNIT::{@names
       ?? @names.map: { '&' ~ $_ }
@@ -115,81 +145,119 @@ statement.
 
 =head1 EXPORTED SUBROUTINES
 
-=head2 path-exists
-
-Returns 1 if paths exists, 0 if not.
-
-=head2 path-is-directory
-
-Returns 1 if path is a directory, 0 if not.
-
-=head2 path-is-regular-file(str $path) {
-
-Returns 1 if path is a regular file, 0 if not.
-
-=head2 path-is-device(str $path) {
-
-Returns 1 if path is a device, 0 if not.
-
-=head2 path-is-symbolic-link(str $path) {
-
-Returns 1 if path is a symbolic link, 0 if not.
-
-=head2 path-created(str $path) {
-
-Returns number of seconds since epoch as a C<num> when path was
-created.
+In alphabetical order:
 
 =head2 path-accessed(str $path) {
 
 Returns number of seconds since epoch as a C<num> when path was
 last accessed.
 
-=head2 path-modified(str $path) {
+=head2 path-blocks(str $path) {
+
+Returns the number of filesystem blocks allocated for this path.
+
+=head2 path-block-size(str $path) {
+
+Returns the preferred I/O size in bytes for interacting wuth the path.
+
+=head2 path-created(str $path) {
 
 Returns number of seconds since epoch as a C<num> when path was
-last modified.
+created.
+
+=head2 path-device-number(str $path) {
+
+Returns the device number of the filesystem on which the path resides.
+
+=head2 path-exists(str $path)
+
+Returns 1 if paths exists, 0 if not.
+
+=head2 path-filesize(str $path) {
+
+Returns the size of the path in bytes.
+
+=head2 path-gid(str $path) {
+
+Returns the numeric group id of the path.
+
+=head2 path-hard-links(str $path) {
+
+Returns the number of hard links to the path.
+
+=head2 path-inode(str $path) {
+
+Returns the inode of the path.
+
+=head2 path-is-device(str $path) {
+
+Returns 1 if path is a device, 0 if not.
+
+=head2 path-is-directory
+
+Returns 1 if path is a directory, 0 if not.
+
+=head2 path-is-executable(str $path)
+
+Returns a non-zero integer value if path is executable by C<uid>.
+
+=head2 path-is-group-executable(str $path)
+
+Returns a non-zero integer value if path is executable by C<gid>.
+
+=head2 path-is-group-readable(str $path)
+
+Returns a non-zero integer value if path is readable by C<gid>.
+
+=head2 path-is-group-writable(str $path)
+
+Returns a non-zero integer value if path is writable by C<gid>.
+
+=head2 path-is-readable(str $path)
+
+Returns a non-zero integer value if path is readable by C<uid>.
+
+=head2 path-is-regular-file(str $path) {
+
+Returns 1 if path is a regular file, 0 if not.
+
+=head2 path-is-symbolic-link(str $path) {
+
+Returns 1 if path is a symbolic link, 0 if not.
+
+=head2 path-is-world-executable(str $path)
+
+Returns a non-zero integer value if path is executable by any other user.
+
+=head2 path-is-world-readable(str $path)
+
+Returns a non-zero integer value if path is readable by any other user.
+
+=head2 path-is-world-writable(str $path)
+
+Returns a non-zero integer value if path is writable by any other user.
+
+=head2 path-is-writable(str $path)
+
+Returns a non-zero integer value if path is writable by C<uid>.
 
 =head2 path-meta-modified(str $path) {
 
 Returns number of seconds since epoch as a C<num> when the meta
 information of the path was last modified.
 
-=head2 path-uid(str $path) {
-
-Returns the numeric user id of the path.
-
-=head2 path-gid(str $path) {
-
-Returns the numeric group id of the path.
-
-=head2 path-inode(str $path) {
-
-Returns the inode of the path.
-
-=head2 path-device-number(str $path) {
-
-Returns the device number of the filesystem on which the path resides.
-
 =head2 path-mode(str $path) {
 
 Returns the numeric unix-style mode.
 
-=head2 path-hard-links(str $path) {
+=head2 path-modified(str $path) {
 
-Returns the number of hard links to the path.
+Returns number of seconds since epoch as a C<num> when path was
+last modified.
 
-=head2 path-filesize(str $path) {
+=head2 path-uid(str $path) {
 
-Returns the size of the path in bytes.
-
-=head2 path-block-size(str $path) {
-
-Returns the preferred I/O size in bytes for interacting wuth the path.
-
-=head2 path-blocks(str $path) {
-
-Returns the number of filesystem blocks allocated for this path.
+Returns the numeric user id of the path.
 
 =head1 AUTHOR
 
