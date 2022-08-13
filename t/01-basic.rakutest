@@ -55,7 +55,7 @@ if Rakudo::Internals.IS-WIN {
 else {
     is-deeply path-mode($file),    33188, "is $file mode ok";
     is-deeply path-mode($dir),     16877, "is $dir mode ok";
-    is-deeply path-filesize($file), 3740, "is $file filesize ok";
+    is-deeply path-filesize($file), 3768, "is $file filesize ok";
 
      ok path-is-readable($file),   "is $file readable by user";
      ok path-is-writable($file),   "is $file writable by user";
