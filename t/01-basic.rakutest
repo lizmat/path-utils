@@ -50,7 +50,7 @@ if Rakudo::Internals.IS-WIN {
     isa-ok path-mode($dir),      Int , "is $dir mode an Int";
     isa-ok path-filesize($file), Int, "is $file filesize ok";
 
-    pass "Windows mode checks unreliable" for ^24;
+    pass "Windows mode checks unreliable" for ^18;
 }
 else {
     is-deeply path-mode($file),    33188, "is $file mode ok";
