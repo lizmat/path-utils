@@ -1,6 +1,7 @@
 Revision history for path-utils
 
 {{$NEXT}}
+    - Skip mode related tests on Windows
 
 0.0.2  2022-08-13T16:39:47+02:00
     - Add subs for path-is-readable / writable / executable checks on a path
