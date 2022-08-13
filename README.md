@@ -114,6 +114,16 @@ path-is-group-writable(str $path)
 
 Returns a non-zero integer value if path is writable by `gid`.
 
+path-is-owned-by-user(str $path)
+--------------------------------
+
+Returns a non-zero integer value if path is owned by the current user.
+
+path-is-owned-by-group(str $path)
+---------------------------------
+
+Returns a non-zero integer value if path is owned by the group of the current user.
+
 path-is-readable(str $path)
 ---------------------------
 

@@ -1,7 +1,7 @@
 use Test;
 use path-utils;
 
-plan 52;
+plan 56;
 
 my str $file = $?FILE;
 my str $dir  = $file.IO.parent.absolute;
@@ -50,12 +50,17 @@ if Rakudo::Internals.IS-WIN {
     isa-ok path-mode($dir),      Int , "is $dir mode an Int";
     isa-ok path-filesize($file), Int, "is $file filesize ok";
 
-    pass "Windows mode checks unreliable" for ^18;
+    pass "Windows mode checks unreliable" for ^22;
 }
 else {
     is-deeply path-mode($file),    33188, "is $file mode ok";
     is-deeply path-mode($dir),     16877, "is $dir mode ok";
-    is-deeply path-filesize($file), 3768, "is $file filesize ok";
+    is-deeply path-filesize($file), 4027, "is $file filesize ok";
+
+    ok path-is-owned-by-user($file),  "is $file owned by user";
+    ok path-is-owned-by-user($dir),   "is $file owned by user";
+    ok path-is-owned-by-group($file), "is $file owned by group";
+    ok path-is-owned-by-group($dir),  "is $file owned by group";
 
      ok path-is-readable($file),   "is $file readable by user";
      ok path-is-writable($file),   "is $file writable by user";

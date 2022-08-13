@@ -1,6 +1,7 @@
 Revision history for path-utils
 
 {{$NEXT}}
+    - Add "is-owned-by-user/group" subs
 
 0.0.3  2022-08-13T16:56:17+02:00
     - Skip mode related tests on Windows

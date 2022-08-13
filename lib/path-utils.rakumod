@@ -1,6 +1,9 @@
 # This is a naughty module, inspired by Rakudo::Internals.DIR-RECURSE
 use nqp;
 
+INIT my int $uid = +$*USER;
+INIT my int $gid = +$*GROUP;
+
 my sub path-exists(str $path) {
     nqp::stat($path,nqp::const::STAT_EXISTS)
 }
@@ -92,6 +95,13 @@ my sub path-is-world-writable(str $path) {
 }
 my sub path-is-world-executable(str $path) {
     nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),1)
+}
+
+my sub path-is-owned-by-user(str $path) {
+    nqp::iseq_i(nqp::stat($path,nqp::const::STAT_UID),$uid)
+}
+my sub path-is-owned-by-group(str $path) {
+    nqp::iseq_i(nqp::stat($path,nqp::const::STAT_GID),$gid)
 }
 
 my sub EXPORT(*@names) {
@@ -212,6 +222,16 @@ Returns a non-zero integer value if path is readable by C<gid>.
 =head2 path-is-group-writable(str $path)
 
 Returns a non-zero integer value if path is writable by C<gid>.
+
+=head2 path-is-owned-by-user(str $path)
+
+Returns a non-zero integer value if path is owned by the
+current user.
+
+=head2 path-is-owned-by-group(str $path)
+
+Returns a non-zero integer value if path is owned by the group
+of the current user.
 
 =head2 path-is-readable(str $path)
 
