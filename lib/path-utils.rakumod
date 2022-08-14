@@ -59,6 +59,9 @@ my sub path-hard-links(str $path) {
 my sub path-filesize(str $path) {
     nqp::stat($path,nqp::const::STAT_FILESIZE)
 }
+my sub path-is-empty(str $path) {
+    nqp::iseq_i(nqp::stat($path,nqp::const::STAT_FILESIZE),0)
+}
 
 my sub path-block-size(str $path) {
     nqp::stat($path,nqp::const::STAT_PLATFORM_BLOCKSIZE)
@@ -206,6 +209,10 @@ Returns 1 if path is a device, 0 if not.
 =head2 path-is-directory
 
 Returns 1 if path is a directory, 0 if not.
+
+=head2 path-is-empty
+
+Returns 1 if the path has a filesize of 0.
 
 =head2 path-is-executable(str $path)
 

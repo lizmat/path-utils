@@ -94,6 +94,11 @@ path-is-directory
 
 Returns 1 if path is a directory, 0 if not.
 
+path-is-empty
+-------------
+
+Returns 1 if the path has a filesize of 0.
+
 path-is-executable(str $path)
 -----------------------------
 
