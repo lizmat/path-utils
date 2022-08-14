@@ -160,25 +160,25 @@ statement.
 
 In alphabetical order:
 
-=head2 path-accessed(str $path) {
+=head2 path-accessed(str $path)
 
 Returns number of seconds since epoch as a C<num> when path was
 last accessed.
 
-=head2 path-blocks(str $path) {
+=head2 path-blocks(str $path)
 
 Returns the number of filesystem blocks allocated for this path.
 
-=head2 path-block-size(str $path) {
+=head2 path-block-size(str $path)
 
 Returns the preferred I/O size in bytes for interacting wuth the path.
 
-=head2 path-created(str $path) {
+=head2 path-created(str $path)
 
 Returns number of seconds since epoch as a C<num> when path was
 created.
 
-=head2 path-device-number(str $path) {
+=head2 path-device-number(str $path)
 
 Returns the device number of the filesystem on which the path resides.
 
@@ -186,23 +186,23 @@ Returns the device number of the filesystem on which the path resides.
 
 Returns 1 if paths exists, 0 if not.
 
-=head2 path-filesize(str $path) {
+=head2 path-filesize(str $path)
 
 Returns the size of the path in bytes.
 
-=head2 path-gid(str $path) {
+=head2 path-gid(str $path)
 
 Returns the numeric group id of the path.
 
-=head2 path-hard-links(str $path) {
+=head2 path-hard-links(str $path)
 
 Returns the number of hard links to the path.
 
-=head2 path-inode(str $path) {
+=head2 path-inode(str $path)
 
 Returns the inode of the path.
 
-=head2 path-is-device(str $path) {
+=head2 path-is-device(str $path)
 
 Returns 1 if path is a device, 0 if not.
 
@@ -244,11 +244,11 @@ of the current user.
 
 Returns a non-zero integer value if path is readable by C<uid>.
 
-=head2 path-is-regular-file(str $path) {
+=head2 path-is-regular-file(str $path)
 
 Returns 1 if path is a regular file, 0 if not.
 
-=head2 path-is-symbolic-link(str $path) {
+=head2 path-is-symbolic-link(str $path)
 
 Returns 1 if path is a symbolic link, 0 if not.
 
@@ -268,21 +268,21 @@ Returns a non-zero integer value if path is writable by any other user.
 
 Returns a non-zero integer value if path is writable by C<uid>.
 
-=head2 path-meta-modified(str $path) {
+=head2 path-meta-modified(str $path)
 
 Returns number of seconds since epoch as a C<num> when the meta
 information of the path was last modified.
 
-=head2 path-mode(str $path) {
+=head2 path-mode(str $path)
 
 Returns the numeric unix-style mode.
 
-=head2 path-modified(str $path) {
+=head2 path-modified(str $path)
 
 Returns number of seconds since epoch as a C<num> when path was
 last modified.
 
-=head2 path-uid(str $path) {
+=head2 path-uid(str $path)
 
 Returns the numeric user id of the path.
 

@@ -34,28 +34,28 @@ EXPORTED SUBROUTINES
 
 In alphabetical order:
 
-path-accessed(str $path) {
---------------------------
+path-accessed(str $path)
+------------------------
 
 Returns number of seconds since epoch as a `num` when path was last accessed.
 
-path-blocks(str $path) {
-------------------------
+path-blocks(str $path)
+----------------------
 
 Returns the number of filesystem blocks allocated for this path.
 
-path-block-size(str $path) {
-----------------------------
+path-block-size(str $path)
+--------------------------
 
 Returns the preferred I/O size in bytes for interacting wuth the path.
 
-path-created(str $path) {
--------------------------
+path-created(str $path)
+-----------------------
 
 Returns number of seconds since epoch as a `num` when path was created.
 
-path-device-number(str $path) {
--------------------------------
+path-device-number(str $path)
+-----------------------------
 
 Returns the device number of the filesystem on which the path resides.
 
@@ -64,28 +64,28 @@ path-exists(str $path)
 
 Returns 1 if paths exists, 0 if not.
 
-path-filesize(str $path) {
---------------------------
+path-filesize(str $path)
+------------------------
 
 Returns the size of the path in bytes.
 
-path-gid(str $path) {
----------------------
+path-gid(str $path)
+-------------------
 
 Returns the numeric group id of the path.
 
-path-hard-links(str $path) {
-----------------------------
+path-hard-links(str $path)
+--------------------------
 
 Returns the number of hard links to the path.
 
-path-inode(str $path) {
------------------------
+path-inode(str $path)
+---------------------
 
 Returns the inode of the path.
 
-path-is-device(str $path) {
----------------------------
+path-is-device(str $path)
+-------------------------
 
 Returns 1 if path is a device, 0 if not.
 
@@ -134,13 +134,13 @@ path-is-readable(str $path)
 
 Returns a non-zero integer value if path is readable by `uid`.
 
-path-is-regular-file(str $path) {
----------------------------------
+path-is-regular-file(str $path)
+-------------------------------
 
 Returns 1 if path is a regular file, 0 if not.
 
-path-is-symbolic-link(str $path) {
-----------------------------------
+path-is-symbolic-link(str $path)
+--------------------------------
 
 Returns 1 if path is a symbolic link, 0 if not.
 
@@ -164,23 +164,23 @@ path-is-writable(str $path)
 
 Returns a non-zero integer value if path is writable by `uid`.
 
-path-meta-modified(str $path) {
--------------------------------
+path-meta-modified(str $path)
+-----------------------------
 
 Returns number of seconds since epoch as a `num` when the meta information of the path was last modified.
 
-path-mode(str $path) {
-----------------------
+path-mode(str $path)
+--------------------
 
 Returns the numeric unix-style mode.
 
-path-modified(str $path) {
---------------------------
+path-modified(str $path)
+------------------------
 
 Returns number of seconds since epoch as a `num` when path was last modified.
 
-path-uid(str $path) {
----------------------
+path-uid(str $path)
+-------------------
 
 Returns the numeric user id of the path.
 
