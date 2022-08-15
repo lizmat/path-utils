@@ -1,8 +1,9 @@
-# This is a naughty module, inspired by Rakudo::Internals.DIR-RECURSE
+# This is a naughty module
 use nqp;
 
-INIT my int $uid = +$*USER;
-INIT my int $gid = +$*GROUP;
+INIT my int $uid     = +$*USER;
+INIT my int $gid     = +$*GROUP;
+INIT my str $dir-sep = $*SPEC.dir-sep;
 
 my sub path-exists(str $path) {
     nqp::stat($path,nqp::const::STAT_EXISTS)
@@ -107,6 +108,18 @@ my sub path-is-owned-by-group(str $path) {
     nqp::iseq_i(nqp::stat($path,nqp::const::STAT_GID),$gid)
 }
 
+my sub path-is-git-repo(str $path) {
+    my str $dotgit = $path ~ $dir-sep ~ ".git";
+    nqp::stat($dotgit,nqp::const::STAT_EXISTS)
+      && nqp::stat($dotgit,nqp::const::STAT_ISDIR)
+}
+
+my sub path-is-github-repo(str $path) {
+    my str $dotgithub = $path ~ $dir-sep ~ ".github";
+    nqp::stat($dotgithub,nqp::const::STAT_EXISTS)
+      && nqp::stat($dotgithub,nqp::const::STAT_ISDIR)
+}
+
 my sub EXPORT(*@names) {
     Map.new: UNIT::{@names
       ?? @names.map: { '&' ~ $_ }
@@ -120,7 +133,7 @@ my sub EXPORT(*@names) {
 
 =head1 NAME
 
-path::utils - low-level path introspection utility functions
+path-utils - low-level path introspection utility functions
 
 =head1 SYNOPSIS
 
@@ -160,49 +173,49 @@ statement.
 
 In alphabetical order:
 
-=head2 path-accessed(str $path)
+=head2 path-accessed
 
 Returns number of seconds since epoch as a C<num> when path was
 last accessed.
 
-=head2 path-blocks(str $path)
+=head2 path-blocks
 
 Returns the number of filesystem blocks allocated for this path.
 
-=head2 path-block-size(str $path)
+=head2 path-block-size
 
 Returns the preferred I/O size in bytes for interacting wuth the path.
 
-=head2 path-created(str $path)
+=head2 path-created
 
 Returns number of seconds since epoch as a C<num> when path was
 created.
 
-=head2 path-device-number(str $path)
+=head2 path-device-number
 
 Returns the device number of the filesystem on which the path resides.
 
-=head2 path-exists(str $path)
+=head2 path-exists
 
 Returns 1 if paths exists, 0 if not.
 
-=head2 path-filesize(str $path)
+=head2 path-filesize
 
 Returns the size of the path in bytes.
 
-=head2 path-gid(str $path)
+=head2 path-gid
 
 Returns the numeric group id of the path.
 
-=head2 path-hard-links(str $path)
+=head2 path-hard-links
 
 Returns the number of hard links to the path.
 
-=head2 path-inode(str $path)
+=head2 path-inode
 
 Returns the inode of the path.
 
-=head2 path-is-device(str $path)
+=head2 path-is-device
 
 Returns 1 if path is a device, 0 if not.
 
@@ -214,75 +227,85 @@ Returns 1 if path is a directory, 0 if not.
 
 Returns 1 if the path has a filesize of 0.
 
-=head2 path-is-executable(str $path)
+=head2 path-is-executable
 
 Returns a non-zero integer value if path is executable by C<uid>.
 
-=head2 path-is-group-executable(str $path)
+=head2 path-is-github-repo
+
+Returns 1 if path appears to be the top directory in a GitHub repository
+(as recognized by having a C<.github> directory in it).
+
+=head2 path-is-git-repo
+
+Returns 1 if path appears to be the top directory in a Git repository
+(as recognized by having a <.git> directory in it).
+
+=head2 path-is-group-executable
 
 Returns a non-zero integer value if path is executable by C<gid>.
 
-=head2 path-is-group-readable(str $path)
+=head2 path-is-group-readable
 
 Returns a non-zero integer value if path is readable by C<gid>.
 
-=head2 path-is-group-writable(str $path)
+=head2 path-is-group-writable
 
 Returns a non-zero integer value if path is writable by C<gid>.
 
-=head2 path-is-owned-by-user(str $path)
+=head2 path-is-owned-by-user
 
 Returns a non-zero integer value if path is owned by the
 current user.
 
-=head2 path-is-owned-by-group(str $path)
+=head2 path-is-owned-by-group
 
 Returns a non-zero integer value if path is owned by the group
 of the current user.
 
-=head2 path-is-readable(str $path)
+=head2 path-is-readable
 
 Returns a non-zero integer value if path is readable by C<uid>.
 
-=head2 path-is-regular-file(str $path)
+=head2 path-is-regular-file
 
 Returns 1 if path is a regular file, 0 if not.
 
-=head2 path-is-symbolic-link(str $path)
+=head2 path-is-symbolic-link
 
 Returns 1 if path is a symbolic link, 0 if not.
 
-=head2 path-is-world-executable(str $path)
+=head2 path-is-world-executable
 
 Returns a non-zero integer value if path is executable by any other user.
 
-=head2 path-is-world-readable(str $path)
+=head2 path-is-world-readable
 
 Returns a non-zero integer value if path is readable by any other user.
 
-=head2 path-is-world-writable(str $path)
+=head2 path-is-world-writable
 
 Returns a non-zero integer value if path is writable by any other user.
 
-=head2 path-is-writable(str $path)
+=head2 path-is-writable
 
 Returns a non-zero integer value if path is writable by C<uid>.
 
-=head2 path-meta-modified(str $path)
+=head2 path-meta-modified
 
 Returns number of seconds since epoch as a C<num> when the meta
 information of the path was last modified.
 
-=head2 path-mode(str $path)
+=head2 path-mode
 
 Returns the numeric unix-style mode.
 
-=head2 path-modified(str $path)
+=head2 path-modified
 
 Returns number of seconds since epoch as a C<num> when path was
 last modified.
 
-=head2 path-uid(str $path)
+=head2 path-uid
 
 Returns the numeric user id of the path.
 

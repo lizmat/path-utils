@@ -1,0 +1,15 @@
+use Test;
+use path-utils;
+
+plan 4;
+
+my str $t    = $?FILE.IO.parent.absolute;
+my str $dir  = $?FILE.IO.parent.parent.absolute;
+
+nok path-is-git-repo($t),    "is $t NOT a Git repo";
+nok path-is-github-repo($t), "is $t NOT a GitHub repo";
+
+ok path-is-git-repo($dir),    "is $dir a Git repo";
+ok path-is-github-repo($dir), "is $dir a GitHub repo";
+
+# vim: expandtab shiftwidth=4

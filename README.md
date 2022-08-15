@@ -3,7 +3,7 @@
 NAME
 ====
 
-path::utils - low-level path introspection utility functions
+path-utils - low-level path introspection utility functions
 
 SYNOPSIS
 ========
@@ -34,58 +34,58 @@ EXPORTED SUBROUTINES
 
 In alphabetical order:
 
-path-accessed(str $path)
-------------------------
+path-accessed
+-------------
 
 Returns number of seconds since epoch as a `num` when path was last accessed.
 
-path-blocks(str $path)
-----------------------
+path-blocks
+-----------
 
 Returns the number of filesystem blocks allocated for this path.
 
-path-block-size(str $path)
---------------------------
+path-block-size
+---------------
 
 Returns the preferred I/O size in bytes for interacting wuth the path.
 
-path-created(str $path)
------------------------
+path-created
+------------
 
 Returns number of seconds since epoch as a `num` when path was created.
 
-path-device-number(str $path)
------------------------------
+path-device-number
+------------------
 
 Returns the device number of the filesystem on which the path resides.
 
-path-exists(str $path)
-----------------------
+path-exists
+-----------
 
 Returns 1 if paths exists, 0 if not.
 
-path-filesize(str $path)
-------------------------
+path-filesize
+-------------
 
 Returns the size of the path in bytes.
 
-path-gid(str $path)
--------------------
+path-gid
+--------
 
 Returns the numeric group id of the path.
 
-path-hard-links(str $path)
---------------------------
+path-hard-links
+---------------
 
 Returns the number of hard links to the path.
 
-path-inode(str $path)
----------------------
+path-inode
+----------
 
 Returns the inode of the path.
 
-path-is-device(str $path)
--------------------------
+path-is-device
+--------------
 
 Returns 1 if path is a device, 0 if not.
 
@@ -99,88 +99,98 @@ path-is-empty
 
 Returns 1 if the path has a filesize of 0.
 
-path-is-executable(str $path)
------------------------------
+path-is-executable
+------------------
 
 Returns a non-zero integer value if path is executable by `uid`.
 
-path-is-group-executable(str $path)
------------------------------------
+path-is-github-repo
+-------------------
+
+Returns 1 if path appears to be the top directory in a GitHub repository (as recognized by having a `.github` directory in it).
+
+path-is-git-repo
+----------------
+
+Returns 1 if path appears to be the top directory in a Git repository (as recognized by having a <.git> directory in it).
+
+path-is-group-executable
+------------------------
 
 Returns a non-zero integer value if path is executable by `gid`.
 
-path-is-group-readable(str $path)
----------------------------------
+path-is-group-readable
+----------------------
 
 Returns a non-zero integer value if path is readable by `gid`.
 
-path-is-group-writable(str $path)
----------------------------------
+path-is-group-writable
+----------------------
 
 Returns a non-zero integer value if path is writable by `gid`.
 
-path-is-owned-by-user(str $path)
---------------------------------
+path-is-owned-by-user
+---------------------
 
 Returns a non-zero integer value if path is owned by the current user.
 
-path-is-owned-by-group(str $path)
----------------------------------
+path-is-owned-by-group
+----------------------
 
 Returns a non-zero integer value if path is owned by the group of the current user.
 
-path-is-readable(str $path)
----------------------------
+path-is-readable
+----------------
 
 Returns a non-zero integer value if path is readable by `uid`.
 
-path-is-regular-file(str $path)
--------------------------------
+path-is-regular-file
+--------------------
 
 Returns 1 if path is a regular file, 0 if not.
 
-path-is-symbolic-link(str $path)
---------------------------------
+path-is-symbolic-link
+---------------------
 
 Returns 1 if path is a symbolic link, 0 if not.
 
-path-is-world-executable(str $path)
------------------------------------
+path-is-world-executable
+------------------------
 
 Returns a non-zero integer value if path is executable by any other user.
 
-path-is-world-readable(str $path)
----------------------------------
+path-is-world-readable
+----------------------
 
 Returns a non-zero integer value if path is readable by any other user.
 
-path-is-world-writable(str $path)
----------------------------------
+path-is-world-writable
+----------------------
 
 Returns a non-zero integer value if path is writable by any other user.
 
-path-is-writable(str $path)
----------------------------
+path-is-writable
+----------------
 
 Returns a non-zero integer value if path is writable by `uid`.
 
-path-meta-modified(str $path)
------------------------------
+path-meta-modified
+------------------
 
 Returns number of seconds since epoch as a `num` when the meta information of the path was last modified.
 
-path-mode(str $path)
---------------------
+path-mode
+---------
 
 Returns the numeric unix-style mode.
 
-path-modified(str $path)
-------------------------
+path-modified
+-------------
 
 Returns number of seconds since epoch as a `num` when path was last modified.
 
-path-uid(str $path)
--------------------
+path-uid
+--------
 
 Returns the numeric user id of the path.
 
