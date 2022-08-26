@@ -2,6 +2,14 @@ Revision history for path-utils
 
 {{$NEXT}}
 
+0.0.7  2022-08-26T23:46:55+02:00
+    - Correct the semantics of path-is-readable / path-is-writable /
+      path-is-executable.  They were incorrectly checking readability /
+      writability / executability of the *owner* of the path
+    - Add "path-is-owner-readable" checking whether readable by owner
+    - Add "path-is-owner-writable" checking whether writable by owner
+    - Add "path-is-owner-executable" checking whether executable by owner
+
 0.0.6  2022-08-15T10:27:02+02:00
     - Add "path-is-git-repo" sub
     - Add "path-is-github-repo" sub

@@ -102,7 +102,7 @@ Returns 1 if the path has a filesize of 0.
 path-is-executable
 ------------------
 
-Returns a non-zero integer value if path is executable by `uid`.
+Returns a non-zero integer value if path is executable by the current user.
 
 path-is-github-repo
 -------------------
@@ -117,17 +117,17 @@ Returns 1 if path appears to be the top directory in a Git repository (as recogn
 path-is-group-executable
 ------------------------
 
-Returns a non-zero integer value if path is executable by `gid`.
+Returns a non-zero integer value if path is executable by members of the group of the path.
 
 path-is-group-readable
 ----------------------
 
-Returns a non-zero integer value if path is readable by `gid`.
+Returns a non-zero integer value if path is readable by members of the group of the path.
 
 path-is-group-writable
 ----------------------
 
-Returns a non-zero integer value if path is writable by `gid`.
+Returns a non-zero integer value if path is writable by members of the group of the path.
 
 path-is-owned-by-user
 ---------------------
@@ -139,10 +139,25 @@ path-is-owned-by-group
 
 Returns a non-zero integer value if path is owned by the group of the current user.
 
+path-is-owner-executable
+------------------------
+
+Returns a non-zero integer value if path is executable by the owner of the path.
+
+path-is-owner-readable
+----------------------
+
+Returns a non-zero integer value if path is readable by the owner of the path.
+
+path-is-owner-writable
+----------------------
+
+Returns a non-zero integer value if path is writable by the owner of the path.
+
 path-is-readable
 ----------------
 
-Returns a non-zero integer value if path is readable by `uid`.
+Returns a non-zero integer value if path is readable by the current user.
 
 path-is-regular-file
 --------------------
@@ -157,22 +172,22 @@ Returns 1 if path is a symbolic link, 0 if not.
 path-is-world-executable
 ------------------------
 
-Returns a non-zero integer value if path is executable by any other user.
+Returns a non-zero integer value if path is executable by anybody.
 
 path-is-world-readable
 ----------------------
 
-Returns a non-zero integer value if path is readable by any other user.
+Returns a non-zero integer value if path is readable by anybody.
 
 path-is-world-writable
 ----------------------
 
-Returns a non-zero integer value if path is writable by any other user.
+Returns a non-zero integer value if path is writable by any body.
 
 path-is-writable
 ----------------
 
-Returns a non-zero integer value if path is writable by `uid`.
+Returns a non-zero integer value if path is writable by the current user.
 
 path-meta-modified
 ------------------

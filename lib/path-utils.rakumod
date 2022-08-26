@@ -71,13 +71,17 @@ my sub path-blocks(str $path) {
     nqp::stat($path,nqp::const::STAT_PLATFORM_BLOCKS)
 }
 
-my sub path-is-readable(str $path) {
+my sub path-is-readable(str $path)   { nqp::filereadable($path)   }
+my sub path-is-writable(str $path)   { nqp::filewritable($path)   }
+my sub path-is-executable(str $path) { nqp::fileexecutable($path) }
+
+my sub path-is-owner-readable(str $path) {
     nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),256)
 }
-my sub path-is-writable(str $path) {
+my sub path-is-owner-writable(str $path) {
     nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),128)
 }
-my sub path-is-executable(str $path) {
+my sub path-is-owner-executable(str $path) {
     nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),64)
 }
 
@@ -229,7 +233,7 @@ Returns 1 if the path has a filesize of 0.
 
 =head2 path-is-executable
 
-Returns a non-zero integer value if path is executable by C<uid>.
+Returns a non-zero integer value if path is executable by the current user.
 
 =head2 path-is-github-repo
 
@@ -243,15 +247,18 @@ Returns 1 if path appears to be the top directory in a Git repository
 
 =head2 path-is-group-executable
 
-Returns a non-zero integer value if path is executable by C<gid>.
+Returns a non-zero integer value if path is executable by members of the
+group of the path.
 
 =head2 path-is-group-readable
 
-Returns a non-zero integer value if path is readable by C<gid>.
+Returns a non-zero integer value if path is readable by members of the
+group of the path.
 
 =head2 path-is-group-writable
 
-Returns a non-zero integer value if path is writable by C<gid>.
+Returns a non-zero integer value if path is writable by members of the
+group of the path.
 
 =head2 path-is-owned-by-user
 
@@ -263,9 +270,24 @@ current user.
 Returns a non-zero integer value if path is owned by the group
 of the current user.
 
+=head2 path-is-owner-executable
+
+Returns a non-zero integer value if path is executable by the owner of
+the path.
+
+=head2 path-is-owner-readable
+
+Returns a non-zero integer value if path is readable by the owner of
+the path.
+
+=head2 path-is-owner-writable
+
+Returns a non-zero integer value if path is writable by the owner of
+the path.
+
 =head2 path-is-readable
 
-Returns a non-zero integer value if path is readable by C<uid>.
+Returns a non-zero integer value if path is readable by the current user.
 
 =head2 path-is-regular-file
 
@@ -277,19 +299,19 @@ Returns 1 if path is a symbolic link, 0 if not.
 
 =head2 path-is-world-executable
 
-Returns a non-zero integer value if path is executable by any other user.
+Returns a non-zero integer value if path is executable by anybody.
 
 =head2 path-is-world-readable
 
-Returns a non-zero integer value if path is readable by any other user.
+Returns a non-zero integer value if path is readable by anybody.
 
 =head2 path-is-world-writable
 
-Returns a non-zero integer value if path is writable by any other user.
+Returns a non-zero integer value if path is writable by any body.
 
 =head2 path-is-writable
 
-Returns a non-zero integer value if path is writable by C<uid>.
+Returns a non-zero integer value if path is writable by the current user.
 
 =head2 path-meta-modified
 
