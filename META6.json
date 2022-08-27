@@ -24,9 +24,12 @@
     "NAUGHTY",
     "READABLE",
     "WRITABLE",
-    "EXECUTABLE"
+    "EXECUTABLE",
+    "SETUID",
+    "SETGID",
+    "STICKY"
   ],
   "test-depends": [
   ],
-  "version": "0.0.7"
+  "version": "0.0.8"
 }

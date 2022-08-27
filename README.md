@@ -79,6 +79,11 @@ path-hard-links
 
 Returns the number of hard links to the path.
 
+path-has-setgid
+---------------
+
+The path has the SETGID bit set in its attributes.
+
 path-inode
 ----------
 
@@ -163,6 +168,11 @@ path-is-regular-file
 --------------------
 
 Returns 1 if path is a regular file, 0 if not.
+
+path-is-sticky
+--------------
+
+The path has the STICKY bit set in its attributes.
 
 path-is-symbolic-link
 ---------------------

@@ -75,6 +75,16 @@ my sub path-is-readable(str $path)   { nqp::filereadable($path)   }
 my sub path-is-writable(str $path)   { nqp::filewritable($path)   }
 my sub path-is-executable(str $path) { nqp::fileexecutable($path) }
 
+my sub path-has-setuid(str $path) {
+    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),2048)
+}
+my sub path-has-setgid(str $path) {
+    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),1024)
+}
+my sub path-is-sticky(str $path) {
+    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),512)
+}
+
 my sub path-is-owner-readable(str $path) {
     nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),256)
 }
@@ -215,6 +225,10 @@ Returns the numeric group id of the path.
 
 Returns the number of hard links to the path.
 
+=head2 path-has-setgid
+
+The path has the SETGID bit set in its attributes.
+
 =head2 path-inode
 
 Returns the inode of the path.
@@ -292,6 +306,10 @@ Returns a non-zero integer value if path is readable by the current user.
 =head2 path-is-regular-file
 
 Returns 1 if path is a regular file, 0 if not.
+
+=head2 path-is-sticky
+
+The path has the STICKY bit set in its attributes.
 
 =head2 path-is-symbolic-link
 
