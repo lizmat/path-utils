@@ -27,7 +27,22 @@ Note that these functions only return native `int` and native `num` values, whic
 
 Also note that all functions (except `path-exists`) expect the path to exist. An exception will be thrown if the path does not exist. The reason for this is that in situations where you are already sure a path exists, there is no point checking for its existence again if you e.g. would like to know its size.
 
+SELECTIVE IMPORTING
+===================
+
+```raku
+use path-utils <path-exists>;  # only export sub path-exists
+```
+
 By default all utility functions are exported. But you can limit this to the functions you actually need by specifying the names in the `use` statement.
+
+To prevent name collisions and/or import any subroutine with a more memorable name, one can use the "original-name:known-as" syntax. A semi-colon in a specified string indicates the name by which the subroutine is known in this distribution, followed by the name with which it will be known in the lexical context in which the `use` command is executed.
+
+```raku
+use path-utils <path-exists:alive>;  # export "path-exists" as "alive"
+
+say alive "/etc/passwd";  # 1 if on Unixy, 0 on Windows
+```
 
 EXPORTED SUBROUTINES
 ====================

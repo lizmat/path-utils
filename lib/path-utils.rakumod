@@ -1,4 +1,4 @@
-# This is a naughty module
+# This is a naughty module using NQP
 use nqp;
 
 INIT my int $uid     = +$*USER;
@@ -135,12 +135,21 @@ my sub path-is-github-repo(str $path) {
 }
 
 my sub EXPORT(*@names) {
-    Map.new: UNIT::{@names
-      ?? @names.map: { '&' ~ $_ }
-      !! UNIT::.keys.grep({
-             .starts-with('&') && $_ ne '&EXPORT'
-         })
-    }:p
+    Map.new: @names
+      ?? @names.map: {
+             if UNIT::{"&$_"}:exists {
+                 UNIT::{"&$_"}:p
+             }
+             else {
+                 my ($in,$out) = .split(':', 2);
+                 if $out && UNIT::{"&$in"} -> &code {
+                     Pair.new: "&$out", &code
+                 }
+             }
+         }
+      !! UNIT::.grep: {
+             .key.starts-with('&') && .key ne '&EXPORT'
+         }
 }
 
 =begin pod
@@ -179,9 +188,31 @@ The reason for this is that in situations where you are already sure
 a path exists, there is no point checking for its existence again if
 you e.g. would like to know its size.
 
+=head1 SELECTIVE IMPORTING
+
+=begin code :lang<raku>
+
+use path-utils <path-exists>;  # only export sub path-exists
+
+=end code
+
 By default all utility functions are exported.  But you can limit this to
 the functions you actually need by specifying the names in the C<use>
 statement.
+
+To prevent name collisions and/or import any subroutine with a more
+memorable name, one can use the "original-name:known-as" syntax.  A
+semi-colon in a specified string indicates the name by which the subroutine
+is known in this distribution, followed by the name with which it will be
+known in the lexical context in which the C<use> command is executed.
+
+=begin code :lang<raku>
+
+use path-utils <path-exists:alive>;  # export "path-exists" as "alive"
+
+say alive "/etc/passwd";  # 1 if on Unixy, 0 on Windows
+
+=end code
 
 =head1 EXPORTED SUBROUTINES
 
