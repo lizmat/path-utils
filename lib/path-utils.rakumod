@@ -1,8 +1,8 @@
 # This is a naughty module using NQP
 use nqp;
 
-INIT my int $uid     = +$*USER;
-INIT my int $gid     = +$*GROUP;
+INIT quietly my int $uid = +$*USER;
+INIT quietly my int $gid = +$*GROUP;
 INIT my str $dir-sep = $*SPEC.dir-sep;
 
 my sub path-exists(str $path) {
