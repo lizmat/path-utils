@@ -1,8 +1,9 @@
 use Test;
 use path-utils;
 
-plan 4;
+plan 8;
 
+my str $file = $?FILE;
 my str $t    = $?FILE.IO.parent.absolute;
 my str $dir  = $?FILE.IO.parent.parent.absolute;
 
@@ -11,5 +12,11 @@ nok path-is-github-repo($t), "is $t NOT a GitHub repo";
 
 ok path-is-git-repo($dir),    "is $dir a Git repo";
 ok path-is-github-repo($dir), "is $dir a GitHub repo";
+
+ok path-is-owned-by-user($file),  "is $file owned by user";
+ok path-is-owned-by-user($dir),   "is $file owned by user";
+ok path-is-owned-by-group($file), "is $file owned by group";
+ok path-is-owned-by-group($dir),  "is $file owned by group";
+
 
 # vim: expandtab shiftwidth=4

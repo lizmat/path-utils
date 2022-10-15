@@ -2,6 +2,10 @@ Revision history for path-utils
 
 {{$NEXT}}
 
+0.0.11  2022-10-15T21:30:36+02:00
+    - Move some more tests to developer test, as they appear to fail
+      in some environments.  Steve Roe++ for spotting
+
 0.0.10  2022-09-27T19:43:54+02:00
     - Quench warnings on Windows on startup because $*USER and $*GROUP
       don't actually work there.  Will Coleda++ for spotting
