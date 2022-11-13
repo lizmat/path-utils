@@ -50,7 +50,7 @@ nqp::stmts(
         )
       )
     );
-nqp::say("final score");
+nqp::say("final score: $printable vs $unprintable");
     nqp::isge_i(nqp::bitshiftr_i($printable,7),$unprintable)
 }
 
