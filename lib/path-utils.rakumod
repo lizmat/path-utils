@@ -11,6 +11,8 @@ my constant PRINTABLE = do {
   @table
 }
 
+dd PRINTABLE;
+
 my sub path-is-text(str $path) {
     my $fh := nqp::open($path, 'r');
     nqp::readfh($fh, (my int8 @content), 4096);
