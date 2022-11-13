@@ -8,7 +8,7 @@ my constant @subs = <
   path-is-group-executable path-is-group-readable path-is-group-writable
   path-is-owned-by-group path-is-owned-by-user path-is-owner-executable
   path-is-owner-readable path-is-owner-writable path-is-readable
-  path-is-regular-file path-is-sticky path-is-symbolic-link
+  path-is-regular-file path-is-sticky path-is-symbolic-link path-is-text
   path-is-world-executable path-is-world-readable path-is-world-writable
   path-is-writable path-meta-modified path-mode path-modified path-uid
 >;

@@ -5,6 +5,51 @@ INIT quietly my int $uid = +$*USER;
 INIT quietly my int $gid = +$*GROUP;
 INIT my str $dir-sep = $*SPEC.dir-sep;
 
+my constant PRINTABLE = do {
+  my int @table;
+  @table[$_] = 1 for flat "\t\b\o33\o14".ords, 32..126, 128..255;
+  @table
+}
+
+my sub path-is-text(str $path) {
+    my $fh := nqp::open($path, 'r');
+    nqp::readfh($fh, (my int8 @content), 4096);
+    nqp::closefh($fh);
+
+    my int $limit = nqp::elems(@content);
+    my int $printable;
+    my int $unprintable;
+    my int $i = -1;
+
+    # Algorithm shamelessly copied from Jonathan Worthington's
+    # Data::TextOrBinary module, converted to NQP ops for speed
+    nqp::while(
+      nqp::islt_i(++$i,$limit),
+      nqp::stmts(
+        nqp::if(
+          (my int $check = nqp::atpos_i(@content,$i)),
+          nqp::if( # not a NULL byte, check
+            nqp::iseq_i($check,13),
+            nqp::if(
+              nqp::isne_i(nqp::atpos_i(@content,++$i),10),
+              (return 0),           # \r not followed by \n hints binary
+              nqp::unless(
+                nqp::iseq_i($check,10), # Ignore lone \n
+                nqp::if(
+                  nqp::atpos_i(PRINTABLE,$check),
+                  ++$printable,
+                  ++$unprintable
+                )
+              )
+            )
+          ),
+          (return 0) # NULL byte, so binary.
+        )
+      )
+    );
+    nqp::isge_i(nqp::bitshiftr_i($printable,7),$unprintable)
+}
+
 my sub path-exists(str $path) {
     nqp::stat($path,nqp::const::STAT_EXISTS)
 }
@@ -345,6 +390,10 @@ The path has the STICKY bit set in its attributes.
 =head2 path-is-symbolic-link
 
 Returns 1 if path is a symbolic link, 0 if not.
+
+=head2 path-is-text
+
+Returns 1 if path is looks like it containes text, 0 if not.
 
 =head2 path-is-world-executable
 

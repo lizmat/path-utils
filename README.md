@@ -194,6 +194,11 @@ path-is-symbolic-link
 
 Returns 1 if path is a symbolic link, 0 if not.
 
+path-is-text
+------------
+
+Returns 1 if path is looks like it containes text, 0 if not.
+
 path-is-world-executable
 ------------------------
 
