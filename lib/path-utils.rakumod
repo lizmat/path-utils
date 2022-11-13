@@ -32,7 +32,10 @@ my sub path-is-text(str $path) {
             nqp::iseq_i($check,13),
             nqp::if(
               nqp::isne_i(nqp::atpos_i(@content,++$i),10),
+nqp::stmts(
+  nqp::say("no LF after CR"),
               (return 0),           # \r not followed by \n hints binary
+),
               nqp::unless(
                 nqp::iseq_i($check,10), # Ignore lone \n
                 nqp::if(
@@ -47,6 +50,7 @@ my sub path-is-text(str $path) {
         )
       )
     );
+nqp::say("final score");
     nqp::isge_i(nqp::bitshiftr_i($printable,7),$unprintable)
 }
 
