@@ -1,6 +1,8 @@
 Revision history for path-utils
 
 {{$NEXT}}
+    - Fix logic error in conversion to nqp of Jonathan's original
+      algorithm, which oddly only showed up on Windows CI testing
 
 0.0.12  2022-11-13T20:46:54+01:00
     - Add "path-is-text", simplified and optimized version of Jonathan

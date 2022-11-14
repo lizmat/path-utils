@@ -12,11 +12,12 @@ my constant PRINTABLE = do {
 }
 
 my sub path-is-text(str $path) {
-    my $fh := nqp::open($path, 'r');
-    nqp::readfh($fh, (my int8 @content), 4096);
+    my $fh  := nqp::open($path, 'r');
+    my $buf := nqp::create(buf8.^pun);
+    nqp::readfh($fh, $buf, 4096);
     nqp::closefh($fh);
 
-    my int $limit = nqp::elems(@content);
+    my int $limit = nqp::elems($buf);
     my int $printable;
     my int $unprintable;
     my int $i = -1;
@@ -27,11 +28,11 @@ my sub path-is-text(str $path) {
       nqp::islt_i(++$i,$limit),
       nqp::stmts(
         nqp::if(
-          (my int $check = nqp::atpos_i(@content,$i)),
+          (my int $check = nqp::atpos_i($buf,$i)),
           nqp::if(   # not a NULL byte, check
             nqp::iseq_i($check,13),
             nqp::if(
-              nqp::isne_i(nqp::atpos_i(@content,++$i),10),
+              nqp::isne_i(nqp::atpos_i($buf,++$i),10),
               (return 0),             # \r not followed by \n hints binary
             ),
             nqp::if(
