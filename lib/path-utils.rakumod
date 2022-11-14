@@ -11,8 +11,6 @@ my constant PRINTABLE = do {
   @table
 }
 
-dd PRINTABLE;
-
 my sub path-is-text(str $path) {
     my $fh := nqp::open($path, 'r');
     nqp::readfh($fh, (my int8 @content), 4096);
@@ -30,21 +28,18 @@ my sub path-is-text(str $path) {
       nqp::stmts(
         nqp::if(
           (my int $check = nqp::atpos_i(@content,$i)),
-          nqp::if( # not a NULL byte, check
+          nqp::if(   # not a NULL byte, check
             nqp::iseq_i($check,13),
             nqp::if(
               nqp::isne_i(nqp::atpos_i(@content,++$i),10),
-nqp::stmts(
-  nqp::say("no LF after CR"),
-              (return 0),           # \r not followed by \n hints binary
-),
-              nqp::unless(
-                nqp::iseq_i($check,10), # Ignore lone \n
-                nqp::if(
-                  nqp::atpos_i(PRINTABLE,$check),
-                  ++$printable,
-                  ++$unprintable
-                )
+              (return 0),             # \r not followed by \n hints binary
+            ),
+            nqp::if(
+              nqp::isne_i($check,10), # Ignore lone \n
+              nqp::if(
+                nqp::atpos_i(PRINTABLE,$check),
+                ++$printablex,
+                ++$unprintablex
               )
             )
           ),
@@ -52,7 +47,6 @@ nqp::stmts(
         )
       )
     );
-nqp::say("final score: $printable vs $unprintable");
     nqp::isge_i(nqp::bitshiftr_i($printable,7),$unprintable)
 }
 
