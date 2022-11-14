@@ -38,8 +38,8 @@ my sub path-is-text(str $path) {
               nqp::isne_i($check,10), # Ignore lone \n
               nqp::if(
                 nqp::atpos_i(PRINTABLE,$check),
-                ++$printablex,
-                ++$unprintablex
+                ++$printable,
+                ++$unprintable
               )
             )
           ),
