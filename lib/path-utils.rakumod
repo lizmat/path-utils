@@ -11,6 +11,10 @@ my constant PRINTABLE = do {
   @table
 }
 
+my constant MOARVM = 724320148219055949;  # "MOARVM\r\n" as a 64bit uint
+my constant BIT64 =
+  nqp::const::BINARY_SIZE_64_BIT +| nqp::const::BINARY_ENDIAN_LITTLE;
+
 my sub path-is-text(str $path) {
     my $fh  := nqp::open($path, 'r');
     my $buf := nqp::create(buf8.^pun);
@@ -49,6 +53,24 @@ my sub path-is-text(str $path) {
       )
     );
     nqp::isge_i(nqp::bitshiftr_i($printable,7),$unprintable)
+}
+
+my sub path-is-moarvm(str $path) {
+    my $fh  := nqp::open($path, 'r');
+    my $buf := nqp::create(buf8.^pun);
+    nqp::readfh($fh, $buf, 4096);
+    nqp::closefh($fh);
+
+    my int $last = nqp::elems($buf) - 8;
+    my int $offset = -1;
+
+    nqp::while(
+      nqp::isle_i(++$offset,$last)
+        && nqp::isne_i(nqp::readuint($buf,$offset,BIT64), MOARVM),
+      nqp::null
+    );
+
+    nqp::isle_i($offset, $last)
 }
 
 my sub path-exists(str $path) {
@@ -351,6 +373,11 @@ group of the path.
 Returns a non-zero integer value if path is writable by members of the
 group of the path.
 
+=head2 path-is-moarvm
+
+Returns 1 if path is a C<MoarVM> bytecode file (either from core, or
+from a precompiled module file), 0 if not.
+
 =head2 path-is-owned-by-user
 
 Returns a non-zero integer value if path is owned by the
@@ -394,7 +421,7 @@ Returns 1 if path is a symbolic link, 0 if not.
 
 =head2 path-is-text
 
-Returns 1 if path is looks like it containes text, 0 if not.
+Returns 1 if path looks like it containes text, 0 if not.
 
 =head2 path-is-world-executable
 
@@ -443,7 +470,7 @@ deal to me!
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2022 Elizabeth Mattijsen
+Copyright 2022, 2024 Elizabeth Mattijsen
 
 This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
 

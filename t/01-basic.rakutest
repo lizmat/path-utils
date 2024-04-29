@@ -1,7 +1,7 @@
 use Test;
 use path-utils;
 
-plan 54;
+plan 55;
 
 my str $file = $?FILE;
 my str $dir  = $file.IO.parent.absolute;
@@ -19,7 +19,8 @@ is-deeply path-is-device($dir),         0, "is $dir NOT a device";
 is-deeply path-is-symbolic-link($file), 0, "is $file NOT a symlink";
 is-deeply path-is-symbolic-link($dir),  0, "is $dir NOT a symlink";
 
-is-deeply path-is-text($file), 1, "does $file contain text";
+is-deeply path-is-text(  $file), 1, "does $file contain text";
+is-deeply path-is-moarvm($file), 0, "is $file NOT a MoarVM file";
 
 isa-ok path-created($file),       Num, "is $file created a Num";
 isa-ok path-accessed($file),      Num, "is $file accessed a Num";
@@ -58,7 +59,7 @@ if Rakudo::Internals.IS-WIN {
 else {
     is-deeply path-mode($file),    33188, "is $file mode ok";
     is-deeply path-mode($dir),     16877, "is $dir mode ok";
-    is-deeply path-filesize($file), 3878, "is $file filesize ok";
+    is-deeply path-filesize($file), 3946, "is $file filesize ok";
 
      ok path-is-readable($file),   "is $file readable by user";
      ok path-is-writable($file),   "is $file writable by user";
