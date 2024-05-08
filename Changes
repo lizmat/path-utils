@@ -2,6 +2,9 @@ Revision history for path-utils
 
 {{$NEXT}}
 
+0.0.15  2024-05-08T11:46:01+02:00
+    - Add "path-is-pdf" checking for PDF files
+
 0.0.14  2024-04-29T14:28:17+02:00
     - Add "path-is-moarvm" checking for MoarVM bytecode files
     - Updated copyright year

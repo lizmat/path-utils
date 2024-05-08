@@ -179,6 +179,11 @@ path-is-owner-writable
 
 Returns a non-zero integer value if path is writable by the owner of the path.
 
+path-is-pdf
+-----------
+
+Returns 1 if path looks a `PDF` file, judging by its magic number, 0 if not.
+
 path-is-readable
 ----------------
 
@@ -202,7 +207,7 @@ Returns 1 if path is a symbolic link, 0 if not.
 path-is-text
 ------------
 
-Returns 1 if path looks like it containes text, 0 if not.
+Returns 1 if path looks like it contains text, 0 if not.
 
 path-is-world-executable
 ------------------------

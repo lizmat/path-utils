@@ -5,16 +5,45 @@ INIT quietly my int $uid = +$*USER;
 INIT quietly my int $gid = +$*GROUP;
 INIT my str $dir-sep = $*SPEC.dir-sep;
 
+my constant MOARVM = 724320148219055949;  # "MOARVM\r\n" as a 64bit uint
+my constant BIT64 =
+  nqp::const::BINARY_SIZE_64_BIT +| nqp::const::BINARY_ENDIAN_LITTLE;
+
+my sub path-is-moarvm(str $path) {
+    my $fh  := nqp::open($path, 'r');
+    my $buf := nqp::create(buf8.^pun);
+    nqp::readfh($fh, $buf, 4096);
+    nqp::closefh($fh);
+
+    my int $last = nqp::elems($buf) - 8;
+    my int $offset = -1;
+
+    nqp::while(
+      nqp::isle_i(++$offset,$last)
+        && nqp::isne_i(nqp::readuint($buf,$offset,BIT64), MOARVM),
+      nqp::null
+    );
+
+    nqp::isle_i($offset, $last)
+}
+
+my constant PDF = 1178882085;  # "%PDF" as a 32bit uint
+my constant BIT32 =
+  nqp::const::BINARY_SIZE_32_BIT +| nqp::const::BINARY_ENDIAN_LITTLE;
+
+my sub path-is-pdf(str $path) {
+    my $fh  := nqp::open($path, 'r');
+    my $buf := nqp::create(buf8.^pun);
+    nqp::readfh($fh, $buf, 4);
+    nqp::closefh($fh);
+    nqp::iseq_i(nqp::readuint($buf,0,BIT32), PDF)
+}
+
 my constant PRINTABLE = do {
   my int @table;
   @table[$_] = 1 for flat "\t\b\o33\o14".ords, 32..126, 128..255;
   @table
 }
-
-my constant MOARVM = 724320148219055949;  # "MOARVM\r\n" as a 64bit uint
-my constant BIT64 =
-  nqp::const::BINARY_SIZE_64_BIT +| nqp::const::BINARY_ENDIAN_LITTLE;
-
 my sub path-is-text(str $path) {
     my $fh  := nqp::open($path, 'r');
     my $buf := nqp::create(buf8.^pun);
@@ -53,24 +82,6 @@ my sub path-is-text(str $path) {
       )
     );
     nqp::isge_i(nqp::bitshiftr_i($printable,7),$unprintable)
-}
-
-my sub path-is-moarvm(str $path) {
-    my $fh  := nqp::open($path, 'r');
-    my $buf := nqp::create(buf8.^pun);
-    nqp::readfh($fh, $buf, 4096);
-    nqp::closefh($fh);
-
-    my int $last = nqp::elems($buf) - 8;
-    my int $offset = -1;
-
-    nqp::while(
-      nqp::isle_i(++$offset,$last)
-        && nqp::isne_i(nqp::readuint($buf,$offset,BIT64), MOARVM),
-      nqp::null
-    );
-
-    nqp::isle_i($offset, $last)
 }
 
 my sub path-exists(str $path) {
@@ -403,6 +414,11 @@ the path.
 Returns a non-zero integer value if path is writable by the owner of
 the path.
 
+=head2 path-is-pdf
+
+Returns 1 if path looks a C<PDF> file, judging by its magic number,
+0 if not.
+
 =head2 path-is-readable
 
 Returns a non-zero integer value if path is readable by the current user.
@@ -421,7 +437,7 @@ Returns 1 if path is a symbolic link, 0 if not.
 
 =head2 path-is-text
 
-Returns 1 if path looks like it containes text, 0 if not.
+Returns 1 if path looks like it contains text, 0 if not.
 
 =head2 path-is-world-executable
 
