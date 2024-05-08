@@ -2,6 +2,14 @@ Revision history for path-utils
 
 {{$NEXT}}
 
+0.0.17  2024-05-08T21:54:31+02:00
+    - Fix issue with "is-moarvm" if it was a precomp module file
+      and it had *many* dependencies.  It will now read up to 16K
+      of a file (up from 4K) and look for \n\n to be immediately
+      followed by the MoarVM magic number.  This allows it to
+      shortcut early on any empty line in a text that is *not*
+      a MoarVM bytecode file
+
 0.0.16  2024-05-08T15:02:31+02:00
     - Fix issue with "is-path-pdf" if size of file being checked
       is less than 4

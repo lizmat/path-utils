@@ -5,26 +5,41 @@ INIT quietly my int $uid = +$*USER;
 INIT quietly my int $gid = +$*GROUP;
 INIT my str $dir-sep = $*SPEC.dir-sep;
 
+my constant LFLF   = 2570;                # "\n\n" as a 16bit uint
 my constant MOARVM = 724320148219055949;  # "MOARVM\r\n" as a 64bit uint
+my constant BIT16 =
+  nqp::const::BINARY_SIZE_16_BIT +| nqp::const::BINARY_ENDIAN_LITTLE;
 my constant BIT64 =
   nqp::const::BINARY_SIZE_64_BIT +| nqp::const::BINARY_ENDIAN_LITTLE;
 
 my sub path-is-moarvm(str $path) {
     my $fh  := nqp::open($path, 'r');
     my $buf := nqp::create(buf8.^pun);
-    nqp::readfh($fh, $buf, 4096);
+    nqp::readfh($fh, $buf, 16384);
     nqp::closefh($fh);
 
-    my int $last = nqp::elems($buf) - 8;
-    my int $offset;
+    # A pure MoarVM bytecode file
+    if nqp::isge_i(nqp::elems($buf),8)
+      && nqp::iseq_i(nqp::readuint($buf,0,BIT64), MOARVM) {
+        1
+    }
 
-    nqp::while(
-      nqp::isle_i($offset,$last)
-        && nqp::isne_i(nqp::readuint($buf,$offset++,BIT64), MOARVM),
-      nqp::null
-    );
+    # Possibly a module precomp file
+    else {
+        my int $last = nqp::elems($buf) - 8;
+        my int $offset;
 
-    nqp::isle_i($offset, $last)
+        # Find the first \n\n
+        nqp::while(
+          nqp::isle_i($offset,$last)
+            && nqp::isne_i(nqp::readuint($buf,$offset++,BIT16), LFLF),
+          nqp::null
+        );
+
+        # Found \n\n followed by MoarVM magic number
+        nqp::isle_i($offset, $last)
+          && nqp::iseq_i(nqp::readuint($buf,$offset + 1,BIT64), MOARVM)
+    }
 }
 
 my constant PDF = 1178882085;  # "%PDF" as a 32bit uint
