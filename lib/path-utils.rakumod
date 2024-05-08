@@ -16,11 +16,11 @@ my sub path-is-moarvm(str $path) {
     nqp::closefh($fh);
 
     my int $last = nqp::elems($buf) - 8;
-    my int $offset = -1;
+    my int $offset;
 
     nqp::while(
-      nqp::isle_i(++$offset,$last)
-        && nqp::isne_i(nqp::readuint($buf,$offset,BIT64), MOARVM),
+      nqp::isle_i($offset,$last)
+        && nqp::isne_i(nqp::readuint($buf,$offset++,BIT64), MOARVM),
       nqp::null
     );
 
@@ -36,7 +36,8 @@ my sub path-is-pdf(str $path) {
     my $buf := nqp::create(buf8.^pun);
     nqp::readfh($fh, $buf, 4);
     nqp::closefh($fh);
-    nqp::iseq_i(nqp::readuint($buf,0,BIT32), PDF)
+    nqp::isge_i(nqp::elems($buf),4)
+      && nqp::iseq_i(nqp::readuint($buf,0,BIT32), PDF)
 }
 
 my constant PRINTABLE = do {

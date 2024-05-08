@@ -2,6 +2,12 @@ Revision history for path-utils
 
 {{$NEXT}}
 
+0.0.16  2024-05-08T15:02:31+02:00
+    - Fix issue with "is-path-pdf" if size of file being checked
+      is less than 4
+    - Nano-optimize "is-moarvm" functionality (4096 native integer
+      increments instead of 4097 on an unsuccessful match)
+
 0.0.15  2024-05-08T11:46:01+02:00
     - Add "path-is-pdf" checking for PDF files
 
