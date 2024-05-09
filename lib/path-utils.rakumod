@@ -13,32 +13,37 @@ my constant BIT64 =
   nqp::const::BINARY_SIZE_64_BIT +| nqp::const::BINARY_ENDIAN_LITTLE;
 
 my sub path-is-moarvm(str $path) {
-    my $fh  := nqp::open($path, 'r');
-    my $buf := nqp::create(buf8.^pun);
-    nqp::readfh($fh, $buf, 16384);
-    nqp::closefh($fh);
+    if nqp::iseq_i(nqp::filereadable($path),1) {
+        my $fh  := nqp::open($path, 'r');
+        my $buf := nqp::create(buf8.^pun);
+        nqp::readfh($fh, $buf, 16384);
+        nqp::closefh($fh);
 
-    # A pure MoarVM bytecode file
-    if nqp::isge_i(nqp::elems($buf),8)
-      && nqp::iseq_i(nqp::readuint($buf,0,BIT64), MOARVM) {
-        1
+        # A pure MoarVM bytecode file
+        if nqp::isge_i(nqp::elems($buf),8)
+          && nqp::iseq_i(nqp::readuint($buf,0,BIT64), MOARVM) {
+            1
+        }
+
+        # Possibly a module precomp file
+        else {
+            my int $last = nqp::elems($buf) - 8;
+            my int $offset;
+
+            # Find the first \n\n
+            nqp::while(
+              nqp::isle_i($offset,$last)
+                && nqp::isne_i(nqp::readuint($buf,$offset++,BIT16), LFLF),
+              nqp::null
+            );
+
+            # Found \n\n followed by MoarVM magic number
+            nqp::isle_i($offset, $last)
+              && nqp::iseq_i(nqp::readuint($buf,$offset + 1,BIT64), MOARVM)
+        }
     }
-
-    # Possibly a module precomp file
     else {
-        my int $last = nqp::elems($buf) - 8;
-        my int $offset;
-
-        # Find the first \n\n
-        nqp::while(
-          nqp::isle_i($offset,$last)
-            && nqp::isne_i(nqp::readuint($buf,$offset++,BIT16), LFLF),
-          nqp::null
-        );
-
-        # Found \n\n followed by MoarVM magic number
-        nqp::isle_i($offset, $last)
-          && nqp::iseq_i(nqp::readuint($buf,$offset + 1,BIT64), MOARVM)
+        0
     }
 }
 
@@ -47,12 +52,17 @@ my constant BIT32 =
   nqp::const::BINARY_SIZE_32_BIT +| nqp::const::BINARY_ENDIAN_LITTLE;
 
 my sub path-is-pdf(str $path) {
-    my $fh  := nqp::open($path, 'r');
-    my $buf := nqp::create(buf8.^pun);
-    nqp::readfh($fh, $buf, 4);
-    nqp::closefh($fh);
-    nqp::isge_i(nqp::elems($buf),4)
-      && nqp::iseq_i(nqp::readuint($buf,0,BIT32), PDF)
+    if nqp::iseq_i(nqp::filereadable($path),1) {
+        my $fh  := nqp::open($path, 'r');
+        my $buf := nqp::create(buf8.^pun);
+        nqp::readfh($fh, $buf, 4);
+        nqp::closefh($fh);
+        nqp::isge_i(nqp::elems($buf),4)
+          && nqp::iseq_i(nqp::readuint($buf,0,BIT32), PDF)
+    }
+    else {
+        0
+    }
 }
 
 my constant PRINTABLE = do {
@@ -61,43 +71,48 @@ my constant PRINTABLE = do {
   @table
 }
 my sub path-is-text(str $path) {
-    my $fh  := nqp::open($path, 'r');
-    my $buf := nqp::create(buf8.^pun);
-    nqp::readfh($fh, $buf, 4096);
-    nqp::closefh($fh);
+    if nqp::iseq_i(nqp::filereadable($path),1) {
+        my $fh  := nqp::open($path, 'r');
+        my $buf := nqp::create(buf8.^pun);
+        nqp::readfh($fh, $buf, 4096);
+        nqp::closefh($fh);
 
-    my int $limit = nqp::elems($buf);
-    my int $printable;
-    my int $unprintable;
-    my int $i = -1;
+        my int $limit = nqp::elems($buf);
+        my int $printable;
+        my int $unprintable;
+        my int $i = -1;
 
-    # Algorithm shamelessly copied from Jonathan Worthington's
-    # Data::TextOrBinary module, converted to NQP ops for speed
-    nqp::while(
-      nqp::islt_i(++$i,$limit),
-      nqp::stmts(
-        nqp::if(
-          (my int $check = nqp::atpos_i($buf,$i)),
-          nqp::if(   # not a NULL byte, check
-            nqp::iseq_i($check,13),
+        # Algorithm shamelessly copied from Jonathan Worthington's
+        # Data::TextOrBinary module, converted to NQP ops for speed
+        nqp::while(
+          nqp::islt_i(++$i,$limit),
+          nqp::stmts(
             nqp::if(
-              nqp::isne_i(nqp::atpos_i($buf,++$i),10),
-              (return 0),             # \r not followed by \n hints binary
-            ),
-            nqp::if(
-              nqp::isne_i($check,10), # Ignore lone \n
-              nqp::if(
-                nqp::atpos_i(PRINTABLE,$check),
-                ++$printable,
-                ++$unprintable
-              )
+              (my int $check = nqp::atpos_i($buf,$i)),
+              nqp::if(   # not a NULL byte, check
+                nqp::iseq_i($check,13),
+                nqp::if(
+                  nqp::isne_i(nqp::atpos_i($buf,++$i),10),
+                  (return 0),             # \r not followed by \n hints binary
+                ),
+                nqp::if(
+                  nqp::isne_i($check,10), # Ignore lone \n
+                  nqp::if(
+                    nqp::atpos_i(PRINTABLE,$check),
+                    ++$printable,
+                    ++$unprintable
+                  )
+                )
+              ),
+              (return 0) # NULL byte, so binary.
             )
-          ),
-          (return 0) # NULL byte, so binary.
-        )
-      )
-    );
-    nqp::isge_i(nqp::bitshiftr_i($printable,7),$unprintable)
+          )
+        );
+        nqp::isge_i(nqp::bitshiftr_i($printable,7),$unprintable)
+    }
+    else {
+        0
+    }
 }
 
 my sub path-exists(str $path) {
@@ -502,7 +517,7 @@ deal to me!
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2022, 2024 Elizabeth Mattijsen
+Copyright 2022, 2023, 2024 Elizabeth Mattijsen
 
 This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
 

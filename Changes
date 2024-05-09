@@ -2,6 +2,10 @@ Revision history for path-utils
 
 {{$NEXT}}
 
+0.0.18  2024-05-09T13:48:13+02:00
+    - Make sure that "is-text", "is-moarvm" and "is-pdf" don't
+      die if the file in question is not readable
+
 0.0.17  2024-05-08T21:54:31+02:00
     - Fix issue with "is-moarvm" if it was a precomp module file
       and it had *many* dependencies.  It will now read up to 16K
