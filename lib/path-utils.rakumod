@@ -12,6 +12,23 @@ my constant BIT16 =
 my constant BIT64 =
   nqp::const::BINARY_SIZE_64_BIT +| nqp::const::BINARY_ENDIAN_LITTLE;
 
+# Turn a Block into a WhateverCode, which guarantees here are no 
+# phasers that need to be taken into account, and there a no
+# return statements
+my sub WC($block is raw) {
+    my $wc := nqp::create(WhateverCode);
+    nqp::bindattr(
+      $wc,Code,'$!do',nqp::getattr($block,Code,'$!do')
+    );
+    nqp::bindattr(
+      $wc,Code,'$!signature',nqp::getattr($block,Code,'$!signature')
+    );
+    nqp::bindattr(
+      $wc,Code,'@!compstuff',nqp::getattr($block,Code,'@!compstuff')
+    );
+    $wc
+}
+
 my sub path-is-moarvm(str $path) {
     nqp::iseq_i(nqp::filereadable($path),1) && do {
         my $fh  := nqp::open($path, 'r');
@@ -106,131 +123,137 @@ my sub path-is-text(str $path) {
     }
 }
 
-my sub path-exists(str $path) {
-    nqp::stat($path,nqp::const::STAT_EXISTS)
+my constant &path-exists = WC -> str $_ {
+    nqp::stat($_,nqp::const::STAT_EXISTS)
 }
-my sub path-is-directory(str $path) {
-    nqp::stat($path,nqp::const::STAT_ISDIR)
+my constant &path-is-directory = WC -> str $_ {
+    nqp::stat($_,nqp::const::STAT_ISDIR)
 }
-my sub path-is-regular-file(str $path) {
-    nqp::stat($path,nqp::const::STAT_ISREG)
+my constant &path-is-regular-file = WC -> str $_ {
+    nqp::stat($_,nqp::const::STAT_ISREG)
 }
-my sub path-is-device(str $path) {
-    nqp::stat($path,nqp::const::STAT_ISDEV)
+my constant &path-is-device = WC -> str $_ {
+    nqp::stat($_,nqp::const::STAT_ISDEV)
 }
-my sub path-is-symbolic-link(str $path) {
-    nqp::stat($path,nqp::const::STAT_ISLNK)
-}
-
-my sub path-created(str $path) {
-    nqp::stat_time($path,nqp::const::STAT_CREATETIME)
-}
-my sub path-accessed(str $path) {
-    nqp::stat_time($path,nqp::const::STAT_ACCESSTIME)
-}
-my sub path-modified(str $path) {
-    nqp::stat_time($path,nqp::const::STAT_MODIFYTIME)
-}
-my sub path-meta-modified(str $path) {
-    nqp::stat_time($path,nqp::const::STAT_CHANGETIME)
+my constant &path-is-symbolic-link = WC -> str $_ {
+    nqp::stat($_,nqp::const::STAT_ISLNK)
 }
 
-my sub path-uid(str $path) {
-    nqp::stat($path,nqp::const::STAT_UID)
+my constant &path-created = WC -> str $_ {
+    nqp::stat_time($_,nqp::const::STAT_CREATETIME)
 }
-my sub path-gid(str $path) {
-    nqp::stat($path,nqp::const::STAT_GID)
+my constant &path-accessed = WC -> str $_ {
+    nqp::stat_time($_,nqp::const::STAT_ACCESSTIME)
 }
-
-my sub path-inode(str $path) {
-    nqp::stat($path,nqp::const::STAT_PLATFORM_INODE)
+my constant &path-modified = WC -> str $_ {
+    nqp::stat_time($_,nqp::const::STAT_MODIFYTIME)
 }
-
-my sub path-device-number(str $path) {
-    nqp::stat($path,nqp::const::STAT_PLATFORM_DEV)
+my constant &path-meta-modified = WC -> str $_ {
+    nqp::stat_time($_,nqp::const::STAT_CHANGETIME)
 }
 
-my sub path-mode(str $path) {
-    nqp::stat($path,nqp::const::STAT_PLATFORM_MODE)
+my constant &path-uid = WC -> str $_ {
+    nqp::stat($_,nqp::const::STAT_UID)
+}
+my constant &path-gid = WC -> str $_ {
+    nqp::stat($_,nqp::const::STAT_GID)
 }
 
-my sub path-hard-links(str $path) {
-    nqp::stat($path,nqp::const::STAT_PLATFORM_NLINKS)
+my constant &path-inode = WC -> str $_ {
+    nqp::stat($_,nqp::const::STAT_PLATFORM_INODE)
 }
 
-my sub path-filesize(str $path) {
-    nqp::stat($path,nqp::const::STAT_FILESIZE)
-}
-my sub path-is-empty(str $path) {
-    nqp::iseq_i(nqp::stat($path,nqp::const::STAT_FILESIZE),0)
+my constant &path-device-number = WC -> str $_ {
+    nqp::stat($_,nqp::const::STAT_PLATFORM_DEV)
 }
 
-my sub path-block-size(str $path) {
-    nqp::stat($path,nqp::const::STAT_PLATFORM_BLOCKSIZE)
-}
-my sub path-blocks(str $path) {
-    nqp::stat($path,nqp::const::STAT_PLATFORM_BLOCKS)
+my constant &path-mode = WC -> str $_ {
+    nqp::stat($_,nqp::const::STAT_PLATFORM_MODE)
 }
 
-my sub path-is-readable(str $path)   { nqp::filereadable($path)   }
-my sub path-is-writable(str $path)   { nqp::filewritable($path)   }
-my sub path-is-executable(str $path) { nqp::fileexecutable($path) }
-
-my sub path-has-setuid(str $path) {
-    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),2048)
-}
-my sub path-has-setgid(str $path) {
-    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),1024)
-}
-my sub path-is-sticky(str $path) {
-    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),512)
+my constant &path-hard-links = WC -> str $_ {
+    nqp::stat($_,nqp::const::STAT_PLATFORM_NLINKS)
 }
 
-my sub path-is-owner-readable(str $path) {
-    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),256)
+my constant &path-filesize = WC -> str $_ {
+    nqp::stat($_,nqp::const::STAT_FILESIZE)
 }
-my sub path-is-owner-writable(str $path) {
-    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),128)
-}
-my sub path-is-owner-executable(str $path) {
-    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),64)
+my constant &path-is-empty = WC -> str $_ {
+    nqp::iseq_i(nqp::stat($_,nqp::const::STAT_FILESIZE),0)
 }
 
-my sub path-is-group-readable(str $path) {
-    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),32)
+my constant &path-block-size = WC -> str $_ {
+    nqp::stat($_,nqp::const::STAT_PLATFORM_BLOCKSIZE)
 }
-my sub path-is-group-writable(str $path) {
-    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),16)
-}
-my sub path-is-group-executable(str $path) {
-    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),8)
+my constant &path-blocks = WC -> str $_ {
+    nqp::stat($_,nqp::const::STAT_PLATFORM_BLOCKS)
 }
 
-my sub path-is-world-readable(str $path) {
-    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),4)
+my constant &path-is-readable = WC -> str $_ {
+    nqp::filereadable($_)
 }
-my sub path-is-world-writable(str $path) {
-    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),2)
+my constant &path-is-writable = WC -> str $_ {
+    nqp::filewritable($_)
 }
-my sub path-is-world-executable(str $path) {
-    nqp::bitand_i(nqp::stat($path,nqp::const::STAT_PLATFORM_MODE),1)
-}
-
-my sub path-is-owned-by-user(str $path) {
-    nqp::iseq_i(nqp::stat($path,nqp::const::STAT_UID),$uid)
-}
-my sub path-is-owned-by-group(str $path) {
-    nqp::iseq_i(nqp::stat($path,nqp::const::STAT_GID),$gid)
+my constant &path-is-executable = WC -> str $_ {
+    nqp::fileexecutable($_)
 }
 
-my sub path-is-git-repo(str $path) {
-    my str $dotgit = $path ~ $dir-sep ~ ".git";
+my constant &path-has-setuid = WC -> str $_ {
+    nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),2048)
+}
+my constant &path-has-setgid = WC -> str $_ {
+    nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),1024)
+}
+my constant &path-is-sticky = WC -> str $_ {
+    nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),512)
+}
+
+my constant &path-is-owner-readable = WC -> str $_ {
+    nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),256)
+}
+my constant &path-is-owner-writable = WC -> str $_ {
+    nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),128)
+}
+my constant &path-is-owner-executable = WC -> str $_ {
+    nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),64)
+}
+
+my constant &path-is-group-readable = WC -> str $_ {
+    nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),32)
+}
+my constant &path-is-group-writable = WC -> str $_ {
+    nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),16)
+}
+my constant &path-is-group-executable = WC -> str $_ {
+    nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),8)
+}
+
+my constant &path-is-world-readable = WC -> str $_ {
+    nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),4)
+}
+my constant &path-is-world-writable = WC -> str $_ {
+    nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),2)
+}
+my constant &path-is-world-executable = WC -> str $_ {
+    nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),1)
+}
+
+my constant &path-is-owned-by-user = WC -> str $_ {
+    nqp::iseq_i(nqp::stat($_,nqp::const::STAT_UID),$uid)
+}
+my constant &path-is-owned-by-group = WC -> str $_ {
+    nqp::iseq_i(nqp::stat($_,nqp::const::STAT_GID),$gid)
+}
+
+my constant &path-is-git-repo = WC -> str $_ {
+    my str $dotgit = $_ ~ $dir-sep ~ ".git";
     nqp::stat($dotgit,nqp::const::STAT_EXISTS)
       && nqp::stat($dotgit,nqp::const::STAT_ISDIR)
 }
 
-my sub path-is-github-repo(str $path) {
-    my str $dotgithub = $path ~ $dir-sep ~ ".github";
+my constant &path-is-github-repo = WC -> str $_ {
+    my str $dotgithub = $_ ~ $dir-sep ~ ".github";
     nqp::stat($dotgithub,nqp::const::STAT_EXISTS)
       && nqp::stat($dotgithub,nqp::const::STAT_ISDIR)
 }

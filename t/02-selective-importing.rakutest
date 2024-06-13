@@ -27,9 +27,9 @@ for @subs {
 
 $code ~= qq:!c:to/CODE/;
 {
-    use path-utils <path-exists:alive>;
-    ok MY::<&alive>:exists, "Did 'alive' get exported?";
-    is MY::<&alive>.name, 'path-exists', 'Was the original name ok?';
+    use path-utils <path-is-text:textual>;
+    ok MY::<&textual>:exists, "Did 'textual' get exported?";
+    is MY::<&textual>.name, 'path-is-text', 'Was the original name ok?';
 }
 CODE
 

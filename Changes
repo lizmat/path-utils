@@ -1,7 +1,13 @@
 Revision history for path-utils
 
 {{$NEXT}}
-    - Micro-optimize is-text/is-pdf/is-moarvm
+    - Micro-optimize path-is-text/pdf/moarvm
+    - Change all simple tests into WhateverCodes through some really
+      dirty hacking (as the Raku Grammar makes it impossible to
+      define them as WhateverCodes in source).  This does not
+      immediately cause faster execution, but it would allow apps
+      such as App::Rak to select faster paths as the WhateverCode
+      guarantees there will be no phasers involved
 
 0.0.18  2024-05-09T13:48:13+02:00
     - Make sure that "is-text", "is-moarvm" and "is-pdf" don't
