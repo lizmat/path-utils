@@ -239,21 +239,21 @@ my constant &path-is-world-executable = WC -> str $_ {
     nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),1)
 }
 
-my constant &path-is-owned-by-user = WC -> str $_ {
-    nqp::iseq_i(nqp::stat($_,nqp::const::STAT_UID),$uid)
+my sub path-is-owned-by-user(str $path) {
+    nqp::iseq_i(nqp::stat($path,nqp::const::STAT_UID),$uid)
 }
-my constant &path-is-owned-by-group = WC -> str $_ {
-    nqp::iseq_i(nqp::stat($_,nqp::const::STAT_GID),$gid)
+my sub path-is-owned-by-group(str $path) {
+    nqp::iseq_i(nqp::stat($path,nqp::const::STAT_GID),$gid)
 }
 
-my constant &path-is-git-repo = WC -> str $_ {
-    my str $dotgit = $_ ~ $dir-sep ~ ".git";
+my sub path-is-git-repo(str $path) {
+    my str $dotgit = $path ~ $dir-sep ~ ".git";
     nqp::stat($dotgit,nqp::const::STAT_EXISTS)
       && nqp::stat($dotgit,nqp::const::STAT_ISDIR)
 }
 
-my constant &path-is-github-repo = WC -> str $_ {
-    my str $dotgithub = $_ ~ $dir-sep ~ ".github";
+my sub path-is-github-repo(str $path) {
+    my str $dotgithub = $path ~ $dir-sep ~ ".github";
     nqp::stat($dotgithub,nqp::const::STAT_EXISTS)
       && nqp::stat($dotgithub,nqp::const::STAT_ISDIR)
 }
