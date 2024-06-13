@@ -1,6 +1,8 @@
 Revision history for path-utils
 
 {{$NEXT}}
+
+0.0.19  2024-06-13T13:08:24+02:00
     - Micro-optimize path-is-text/pdf/moarvm
     - Change all simple tests into WhateverCodes through some really
       dirty hacking (as the Raku Grammar makes it impossible to
