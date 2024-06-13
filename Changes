@@ -1,6 +1,7 @@
 Revision history for path-utils
 
 {{$NEXT}}
+    - Micro-optimize is-text/is-pdf/is-moarvm
 
 0.0.18  2024-05-09T13:48:13+02:00
     - Make sure that "is-text", "is-moarvm" and "is-pdf" don't

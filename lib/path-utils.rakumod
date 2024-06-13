@@ -13,7 +13,7 @@ my constant BIT64 =
   nqp::const::BINARY_SIZE_64_BIT +| nqp::const::BINARY_ENDIAN_LITTLE;
 
 my sub path-is-moarvm(str $path) {
-    if nqp::iseq_i(nqp::filereadable($path),1) {
+    nqp::iseq_i(nqp::filereadable($path),1) && do {
         my $fh  := nqp::open($path, 'r');
         my $buf := nqp::create(buf8.^pun);
         nqp::readfh($fh, $buf, 16384);
@@ -42,9 +42,6 @@ my sub path-is-moarvm(str $path) {
               && nqp::iseq_i(nqp::readuint($buf,$offset + 1,BIT64), MOARVM)
         }
     }
-    else {
-        0
-    }
 }
 
 my constant PDF = 1178882085;  # "%PDF" as a 32bit uint
@@ -52,16 +49,13 @@ my constant BIT32 =
   nqp::const::BINARY_SIZE_32_BIT +| nqp::const::BINARY_ENDIAN_LITTLE;
 
 my sub path-is-pdf(str $path) {
-    if nqp::iseq_i(nqp::filereadable($path),1) {
+    nqp::iseq_i(nqp::filereadable($path),1) && do {
         my $fh  := nqp::open($path, 'r');
         my $buf := nqp::create(buf8.^pun);
         nqp::readfh($fh, $buf, 4);
         nqp::closefh($fh);
         nqp::isge_i(nqp::elems($buf),4)
           && nqp::iseq_i(nqp::readuint($buf,0,BIT32), PDF)
-    }
-    else {
-        0
     }
 }
 
@@ -71,7 +65,7 @@ my constant PRINTABLE = do {
   @table
 }
 my sub path-is-text(str $path) {
-    if nqp::iseq_i(nqp::filereadable($path),1) {
+    nqp::iseq_i(nqp::filereadable($path),1) && do {
         my $fh  := nqp::open($path, 'r');
         my $buf := nqp::create(buf8.^pun);
         nqp::readfh($fh, $buf, 4096);
@@ -109,9 +103,6 @@ my sub path-is-text(str $path) {
           )
         );
         nqp::isge_i(nqp::bitshiftr_i($printable,7),$unprintable)
-    }
-    else {
-        0
     }
 }
 
