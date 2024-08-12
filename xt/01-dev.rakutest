@@ -1,7 +1,7 @@
 use Test;
 use path-utils;
 
-plan 8;
+plan 10;
 
 my str $file = $?FILE;
 my str $t    = $?FILE.IO.parent.absolute;
@@ -18,5 +18,7 @@ ok path-is-owned-by-user($dir),   "is $file owned by user";
 ok path-is-owned-by-group($file), "is $file owned by group";
 ok path-is-owned-by-group($dir),  "is $file owned by group";
 
+is-deeply path-git-repo($t),     $dir, "is $dir the Git repo of $t";
+is-deeply path-git-repo($?FILE), $dir, "is $dir the Git repo of $file";
 
 # vim: expandtab shiftwidth=4

@@ -29,7 +29,9 @@
     "EXECUTABLE",
     "SETUID",
     "SETGID",
-    "STICKY"
+    "STICKY",
+    "GIT",
+    "GITHUB"
   ],
   "test-depends": [
   ],

@@ -2,9 +2,9 @@ use Test;
 
 my constant @subs = <
   path-accessed path-block-size path-blocks path-created path-device-number
-  path-exists path-is-directory path-filesize path-gid path-hard-links
-  path-has-setgid path-has-setuid path-inode path-is-device path-is-empty
-  path-is-executable path-is-git-repo path-is-github-repo
+  path-exists path-is-directory path-filesize path-gid path-git-repo
+  path-hard-links path-has-setgid path-has-setuid path-inode path-is-device
+  path-is-empty path-is-executable path-is-git-repo path-is-github-repo
   path-is-group-executable path-is-group-readable path-is-group-writable
   path-is-owned-by-group path-is-owned-by-user path-is-owner-executable
   path-is-owner-readable path-is-owner-writable path-is-readable

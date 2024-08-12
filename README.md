@@ -1,4 +1,4 @@
-[![Actions Status](https://github.com/lizmat/path-utils/actions/workflows/test.yml/badge.svg)](https://github.com/lizmat/path-utils/actions)
+[![Actions Status](https://github.com/lizmat/path-utils/actions/workflows/linux.yml/badge.svg)](https://github.com/lizmat/path-utils/actions) [![Actions Status](https://github.com/lizmat/path-utils/actions/workflows/macos.yml/badge.svg)](https://github.com/lizmat/path-utils/actions) [![Actions Status](https://github.com/lizmat/path-utils/actions/workflows/windows.yml/badge.svg)](https://github.com/lizmat/path-utils/actions)
 
 NAME
 ====
@@ -88,6 +88,11 @@ path-gid
 --------
 
 Returns the numeric group id of the path.
+
+path-git-repo
+-------------
+
+Returns the path of the Git repository associated with the **absolute** path given, or returns the empty string if the path is not part inside a Git repository. Note that this not mean that the file is actually part of that Git repository: it merely indicates that the returned path returned `True` with `path-is-git-repo`.
 
 path-hard-links
 ---------------

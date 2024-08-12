@@ -1,6 +1,11 @@
 Revision history for path-utils
 
 {{$NEXT}}
+    - Add "path-git repo" for finding the path of a Git repository
+      for a given absolute path.
+    - Separate the rakudoc into a separate file for convenience
+    - Add CI badge for each OS
+    - Add sponsor button
 
 0.0.19  2024-06-13T13:08:24+02:00
     - Micro-optimize path-is-text/pdf/moarvm
