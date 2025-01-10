@@ -1,6 +1,8 @@
 Revision history for path-utils
 
 {{$NEXT}}
+
+0.0.21  2025-01-10T11:39:00+01:00
     - Work around issue with $*USER and $*GROUP on Windows,
       found in CI after making $*USER sorta work on Windows
     - Update copyright year
