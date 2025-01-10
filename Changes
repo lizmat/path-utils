@@ -1,6 +1,9 @@
 Revision history for path-utils
 
 {{$NEXT}}
+    - Work around issue with $*USER and $*GROUP on Windows,
+      found in CI after making $*USER sorta work on Windows
+    - Update copyright year
 
 0.0.20  2024-08-12T18:05:25+02:00
     - Add "path-git repo" for finding the path of a Git repository
