@@ -1,8 +1,8 @@
 # This is a naughty module using NQP
 use nqp;
 
-INIT quietly my int $uid = +$*USER;
-INIT quietly my int $gid = +$*GROUP;
+INIT quietly my int $uid = +$*USER  // 0;
+INIT quietly my int $gid = +$*GROUP // 0;
 INIT my str $dir-sep = $*SPEC.dir-sep;
 
 my constant LFLF   = 2570;                # "\n\n" as a 16bit uint
