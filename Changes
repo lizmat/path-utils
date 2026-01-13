@@ -1,6 +1,8 @@
 Revision history for path-utils
 
 {{$NEXT}}
+
+0.0.22  2026-01-13T20:54:59+01:00
     - Add "path-is-sqlite" checking for SQLite database files
     - Reached 100% testing coverage
     - Modernized META6.json
