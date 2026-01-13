@@ -1,0 +1,178 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-03T12:15:00+00:00",
+    "lifecycles": [
+      {
+        "phase": "pre-build"
+      }
+    ],
+    "authors": [
+      {
+        "bom-ref": "ElizabethMattijsen",
+        "name": "Elizabeth Mattijsen"
+      }
+    ],
+    "component": {
+      "type": "library",
+      "mime-type": "text/plain",
+      "bom-ref": "pkg:raku/zef:lizmat/path-utils@0.0.21",
+      "authors": [
+        {
+          "bom-ref": "ElizabethMattijsen",
+          "name": "Elizabeth Mattijsen"
+        }
+      ],
+      "publisher": "zef",
+      "group": "zef:lizmat",
+      "name": "path-utils",
+      "version": "0.0.21",
+      "description": "low-level path introspection utility functions",
+      "scope": "required",
+      "licenses": [
+        {
+          "license": {
+            "id": "Artistic-2.0",
+            "acknowledgement": "declared",
+            "url": "https://spdx.org/licenses/Artistic-2.0.json"
+          }
+        }
+      ],
+      "purl": "pkg:raku/zef:lizmat/path-utils@0.0.21",
+      "externalReferences": [
+        {
+          "url": "https://raku.land/zef:lizmat/path-utils?v=0.0.21",
+          "type": "documentation"
+        },
+        {
+          "url": "https://github.com/lizmat/path-utils",
+          "type": "distribution"
+        },
+        {
+          "url": "https://github.com/lizmat/path-utils/issues",
+          "type": "issue-tracker"
+        },
+        {
+          "url": "https://github.com/lizmat/path-utils/archive/refs/tags/0.0.21.zip",
+          "type": "source-distribution"
+        },
+        {
+          "url": "https://spdx.org/licenses/Artistic-2.0.json",
+          "type": "license"
+        }
+      ],
+      "tags": [
+        "IO",
+        "STAT",
+        "PATH",
+        "PDF",
+        "MOARVM",
+        "NAUGHTY",
+        "READABLE",
+        "WRITABLE",
+        "EXECUTABLE",
+        "SETUID",
+        "SETGID",
+        "STICKY",
+        "GIT",
+        "GITHUB"
+      ]
+    },
+    "licenses": [
+      {
+        "license": {
+          "id": "Artistic-2.0",
+          "acknowledgement": "declared",
+          "url": "https://spdx.org/licenses/Artistic-2.0.json"
+        }
+      }
+    ],
+    "tools": {
+      "components": [
+        {
+          "type": "library",
+          "mime-type": "text/plain",
+          "bom-ref": "pkg:raku/zef:lizmat/SBOM::Raku@0.0.6",
+          "authors": [
+            {
+              "bom-ref": "ElizabethMattijsen",
+              "name": "Elizabeth Mattijsen"
+            }
+          ],
+          "publisher": "zef",
+          "group": "zef:lizmat",
+          "name": "SBOM::Raku",
+          "version": "0.0.6",
+          "description": "Raku specific SBOM functionality",
+          "scope": "required",
+          "licenses": [
+            {
+              "license": {
+                "id": "Artistic-2.0",
+                "acknowledgement": "declared",
+                "url": "https://spdx.org/licenses/Artistic-2.0.json"
+              }
+            }
+          ],
+          "purl": "pkg:raku/zef:lizmat/SBOM::Raku@0.0.6",
+          "externalReferences": [
+            {
+              "url": "https://raku.land/zef:lizmat/SBOM::Raku?v=0.0.6",
+              "type": "documentation"
+            },
+            {
+              "url": "mailto:liz@raku.rocks",
+              "type": "support"
+            },
+            {
+              "url": "https://github.com/lizmat/SBOM-Raku/issues",
+              "type": "issue-tracker"
+            },
+            {
+              "url": "https://github.com/lizmat/SBOM-Raku",
+              "type": "distribution"
+            },
+            {
+              "url": "https://github.com/lizmat/SBOM-Raku/archive/refs/tags/0.0.6.zip",
+              "type": "source-distribution"
+            },
+            {
+              "url": "https://spdx.org/licenses/Artistic-2.0.json",
+              "type": "license"
+            }
+          ],
+          "tags": [
+            "SBOM",
+            "RAKU",
+            "META"
+          ]
+        }
+      ]
+    }
+  },
+  "externalReferences": [
+    {
+      "url": "https://raku.land/zef:lizmat/path-utils?v=0.0.21",
+      "type": "documentation"
+    },
+    {
+      "url": "https://github.com/lizmat/path-utils",
+      "type": "distribution"
+    },
+    {
+      "url": "https://github.com/lizmat/path-utils/issues",
+      "type": "issue-tracker"
+    },
+    {
+      "url": "https://github.com/lizmat/path-utils/archive/refs/tags/0.0.21.zip",
+      "type": "source-distribution"
+    },
+    {
+      "url": "https://spdx.org/licenses/Artistic-2.0.json",
+      "type": "license"
+    }
+  ]
+}

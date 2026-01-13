@@ -1,6 +1,10 @@
 Revision history for path-utils
 
 {{$NEXT}}
+    - Add "path-is-sqlite" checking for SQLite database files
+    - Reached 100% testing coverage
+    - Modernized META6.json
+    - Updated copyright year
 
 0.0.21  2025-01-10T11:39:00+01:00
     - Work around issue with $*USER and $*GROUP on Windows,
@@ -8,7 +12,7 @@ Revision history for path-utils
     - Update copyright year
 
 0.0.20  2024-08-12T18:05:25+02:00
-    - Add "path-git repo" for finding the path of a Git repository
+    - Add "path-git-repo" for finding the path of a Git repository
       for a given absolute path.
     - Separate the rakudoc into a separate file for convenience
     - Add CI badge for each OS

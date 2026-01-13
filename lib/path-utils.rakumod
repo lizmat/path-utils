@@ -6,16 +6,17 @@ INIT quietly my int $gid = +$*GROUP // 0;
 INIT my str $dir-sep = $*SPEC.dir-sep;
 
 my constant LFLF   = 2570;                # "\n\n" as a 16bit uint
-my constant MOARVM = 724320148219055949;  # "MOARVM\r\n" as a 64bit uint
 my constant BIT16 =
   nqp::const::BINARY_SIZE_16_BIT +| nqp::const::BINARY_ENDIAN_LITTLE;
+my constant BIT32 =
+  nqp::const::BINARY_SIZE_32_BIT +| nqp::const::BINARY_ENDIAN_LITTLE;
 my constant BIT64 =
   nqp::const::BINARY_SIZE_64_BIT +| nqp::const::BINARY_ENDIAN_LITTLE;
 
 # Turn a Block into a WhateverCode, which guarantees here are no 
 # phasers that need to be taken into account, and there a no
 # return statements
-my sub WC($block is raw) {
+my sub WC($block is raw) {  # UNCOVERABLE
     my $wc := nqp::create(WhateverCode);
     nqp::bindattr(
       $wc,Code,'$!do',nqp::getattr($block,Code,'$!do')
@@ -29,6 +30,22 @@ my sub WC($block is raw) {
     $wc
 }
 
+my constant SQLITE1 = 0x66206574694c5153;  # "SQLite f" as 64bit int
+my constant SQLITE2 = 0x00332074616d726f;  # "ormat 3\0" as 64bit int
+my sub path-is-sqlite(str $path) {
+    nqp::iseq_i(nqp::filereadable($path),1) && do {
+        my $fh  := nqp::open($path, 'r');
+        my $buf := nqp::create(buf8.^pun);
+        nqp::readfh($fh,$buf,16);
+        nqp::closefh($fh);
+
+        nqp::iseq_i(nqp::elems($buf),16)
+          && nqp::iseq_i(nqp::readuint($buf,0,BIT64), SQLITE1)
+          && nqp::iseq_i(nqp::readuint($buf,8,BIT64), SQLITE2)
+    }
+}
+
+my constant MOARVM = 724320148219055949;  # "MOARVM\r\n" as a 64bit int
 my sub path-is-moarvm(str $path) {
     nqp::iseq_i(nqp::filereadable($path),1) && do {
         my $fh  := nqp::open($path, 'r');
@@ -38,7 +55,7 @@ my sub path-is-moarvm(str $path) {
 
         # A pure MoarVM bytecode file
         if nqp::isge_i(nqp::elems($buf),8)
-          && nqp::iseq_i(nqp::readuint($buf,0,BIT64), MOARVM) {
+          && nqp::iseq_i(nqp::readuint($buf,0,BIT64), MOARVM) {  # UNCOVERABLE
             1
         }
 
@@ -62,9 +79,6 @@ my sub path-is-moarvm(str $path) {
 }
 
 my constant PDF = 1178882085;  # "%PDF" as a 32bit uint
-my constant BIT32 =
-  nqp::const::BINARY_SIZE_32_BIT +| nqp::const::BINARY_ENDIAN_LITTLE;
-
 my sub path-is-pdf(str $path) {
     nqp::iseq_i(nqp::filereadable($path),1) && do {
         my $fh  := nqp::open($path, 'r');
@@ -78,7 +92,7 @@ my sub path-is-pdf(str $path) {
 
 my constant PRINTABLE = do {
   my int @table;
-  @table[$_] = 1 for flat "\t\b\o33\o14".ords, 32..126, 128..255;
+  @table[$_] = 1 for flat "\t\b\o33\o14".ords, 32..126, 128..255;  # UNCOVERABLE
   @table
 }
 my sub path-is-text(str $path) {

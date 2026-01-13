@@ -206,6 +206,10 @@ Returns 1 if path is a regular file, 0 if not.
 
 The path has the STICKY bit set in its attributes.
 
+=head2 path-is-sqlite
+
+Returns 1 if path is a C<SQLite> database file.
+
 =head2 path-is-symbolic-link
 
 Returns 1 if path is a symbolic link, 0 if not.
@@ -261,7 +265,7 @@ deal to me!
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2022, 2023, 2024, 2025 Elizabeth Mattijsen
+Copyright 2022, 2023, 2024, 2025, 2026 Elizabeth Mattijsen
 
 This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
 
