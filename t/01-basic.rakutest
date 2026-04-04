@@ -3,8 +3,29 @@ use path-utils;
 
 plan 57;
 
-my str $file = $?FILE;
-my str $dir  = $file.IO.parent.absolute;
+my constant POSIX-FILE-MODE = 0o644;
+my constant NQP-FILE-MODE   = 33188;
+my constant FILE-SIZE       = 4;
+
+my constant POSIX-DIR-MODE  = 0o755;
+my constant NQP-DIR-MODE    = 16877;
+
+# Temporary fixtures for test isolation
+my $tmpdir = $*TMPDIR.add("path-utils-test-" ~ now.Int);
+$tmpdir.mkdir;
+$tmpdir.chmod(POSIX-DIR-MODE);
+
+my $tmpfile = $tmpdir.add("sample.txt");
+$tmpfile.spurt("A" x FILE-SIZE);
+$tmpfile.chmod(POSIX-FILE-MODE);
+
+END {
+    .unlink with $tmpfile;
+    .rmdir  with $tmpdir;
+}
+
+my str $file = $tmpfile.absolute;
+my str $dir  = $tmpdir.absolute;
 
 is-deeply path-exists($file), 1, "does $file exist";
 is-deeply path-exists($dir),  1, "does $dir exist";
@@ -59,15 +80,9 @@ if Rakudo::Internals.IS-WIN {
     pass "Windows mode checks unreliable" for ^18;
 }
 else {
-    # Some Linux distros use an umask that will create files and
-    # directories without world readability/executability.  So
-    # make sure the access rights are as to be expected by the tests.
-    $dir .IO.chmod(0o755);
-    $file.IO.chmod(0o644);
-
-    is-deeply path-mode($file),    33188, "is $file mode ok";
-    is-deeply path-mode($dir),     16877, "is $dir mode ok";
-    is-deeply path-filesize($file), 4328, "is $file filesize ok";
+    is-deeply path-mode($file),     NQP-FILE-MODE, "is $file mode ok";
+    is-deeply path-mode($dir),      NQP-DIR-MODE, "is $dir mode ok";
+    is-deeply path-filesize($file), FILE-SIZE, "is $file filesize ok";
 
      ok path-is-readable($file),   "is $file readable by user";
      ok path-is-writable($file),   "is $file writable by user";
