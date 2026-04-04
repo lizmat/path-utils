@@ -1,3 +1,5 @@
+use v6.*;  # for nano
+
 use Test;
 use path-utils;
 
@@ -11,7 +13,7 @@ my constant POSIX-DIR-MODE  = 0o755;
 my constant NQP-DIR-MODE    = 16877;
 
 # Temporary fixtures for test isolation
-my $tmpdir = $*TMPDIR.add("path-utils-test-" ~ now.Int);
+my $tmpdir = $*TMPDIR.add("path-utils-test-" ~ nano);
 $tmpdir.mkdir;
 $tmpdir.chmod(POSIX-DIR-MODE);
 

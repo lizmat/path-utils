@@ -54,7 +54,7 @@ my sub path-is-moarvm(str $path) {
         nqp::closefh($fh);
 
         # A pure MoarVM bytecode file
-        if nqp::isge_i(nqp::elems($buf),8)
+        if nqp::isge_i(nqp::elems($buf),8)  # UNCOVERABLE
           && nqp::iseq_i(nqp::readuint($buf,0,BIT64), MOARVM) {  # UNCOVERABLE
             1
         }
@@ -73,7 +73,7 @@ my sub path-is-moarvm(str $path) {
 
             # Found \n\n followed by MoarVM magic number
             nqp::isle_i($offset, $last)
-              && nqp::iseq_i(nqp::readuint($buf,$offset + 1,BIT64), MOARVM)
+              && nqp::iseq_i(nqp::readuint($buf,$offset + 1,BIT64), MOARVM)  # UNCOVERABLE
         }
     }
 }

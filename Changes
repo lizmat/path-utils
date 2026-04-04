@@ -2,6 +2,9 @@ Revision history for path-utils
 
 {{$NEXT}}
 
+0.0.24  2026-04-05T01:24:45+02:00
+    - Use temporary files for testing, keatumal++
+
 0.0.23  2026-04-04T12:17:46+02:00
     - Fix world readability tests for Linux distros that have
       a non-standard umask.  Spotted by keatumal++
