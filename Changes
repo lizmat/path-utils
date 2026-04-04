@@ -2,6 +2,10 @@ Revision history for path-utils
 
 {{$NEXT}}
 
+0.0.23  2026-04-04T12:17:46+02:00
+    - Fix world readability tests for Linux distros that have
+      a non-standard umask.  Spotted by keatumal++
+
 0.0.22  2026-01-13T20:54:59+01:00
     - Add "path-is-sqlite" checking for SQLite database files
     - Reached 100% testing coverage

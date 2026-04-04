@@ -59,9 +59,15 @@ if Rakudo::Internals.IS-WIN {
     pass "Windows mode checks unreliable" for ^18;
 }
 else {
+    # Some Linux distros use an umask that will create files and
+    # directories without world readability/executability.  So
+    # make sure the access rights are as to be expected by the tests.
+    $dir .IO.chmod(0o755);
+    $file.IO.chmod(0o644);
+
     is-deeply path-mode($file),    33188, "is $file mode ok";
     is-deeply path-mode($dir),     16877, "is $dir mode ok";
-    is-deeply path-filesize($file), 4075, "is $file filesize ok";
+    is-deeply path-filesize($file), 4328, "is $file filesize ok";
 
      ok path-is-readable($file),   "is $file readable by user";
      ok path-is-writable($file),   "is $file writable by user";

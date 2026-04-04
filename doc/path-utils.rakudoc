@@ -7,13 +7,11 @@ path-utils - low-level path introspection utility functions
 =head1 SYNOPSIS
 
 =begin code :lang<raku>
-
 use path-utils;  # export all subs
 
 use path-utils <path-exists>;  # only export sub path-exists
 
 say path-exists($filename);  0 or 1
-
 =end code
 
 =head1 DESCRIPTION
@@ -37,9 +35,7 @@ you e.g. would like to know its size.
 =head1 SELECTIVE IMPORTING
 
 =begin code :lang<raku>
-
 use path-utils <path-exists>;  # only export sub path-exists
-
 =end code
 
 By default all utility functions are exported.  But you can limit this to
@@ -53,11 +49,9 @@ is known in this distribution, followed by the name with which it will be
 known in the lexical context in which the C<use> command is executed.
 
 =begin code :lang<raku>
-
 use path-utils <path-exists:alive>;  # export "path-exists" as "alive"
 
 say alive "/etc/passwd";  # 1 if on Unixy, 0 on Windows
-
 =end code
 
 =head1 EXPORTED SUBROUTINES
