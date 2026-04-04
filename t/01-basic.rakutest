@@ -12,16 +12,16 @@ my constant NQP-DIR-MODE    = 16877;
 
 # Temporary fixtures for test isolation
 my $tmpdir = $*TMPDIR.add("path-utils-test-" ~ now.Int);
-mkdir $tmpdir;
-$tmpdir.IO.chmod(POSIX-DIR-MODE);
+$tmpdir.mkdir;
+$tmpdir.chmod(POSIX-DIR-MODE);
 
 my $tmpfile = $tmpdir.add("sample.txt");
-spurt $tmpfile, "A" x FILE-SIZE;
-$tmpfile.IO.chmod(POSIX-FILE-MODE);
+$tmpfile.spurt("A" x FILE-SIZE);
+$tmpfile.chmod(POSIX-FILE-MODE);
 
 END {
-    unlink $tmpfile;
-    rmdir  $tmpdir;
+    .unlink with $tmpfile;
+    .rmdir  with $tmpdir;
 }
 
 my str $file = $tmpfile.absolute;
