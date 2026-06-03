@@ -2,6 +2,11 @@ Revision history for path-utils
 
 {{$NEXT}}
 
+0.0.25  2026-06-03T22:47:12+02:00
+    - Remove dubious performance hack that probably didn't
+      do much anyway, and which was causing issues in RakuAST
+      Spotted by ugexe++
+
 0.0.24  2026-04-05T01:24:45+02:00
     - Use temporary files for testing, keatumal++
 

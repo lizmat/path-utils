@@ -1,7 +1,7 @@
 # This is a naughty module using NQP
 use nqp;
 
-INIT quietly my int $uid = +$*USER  // 0;
+INIT quietly my int $uid = +$*USER  // 0;  # UNCOVERABLE
 INIT quietly my int $gid = +$*GROUP // 0;
 INIT my str $dir-sep = $*SPEC.dir-sep;
 
@@ -12,23 +12,6 @@ my constant BIT32 =
   nqp::const::BINARY_SIZE_32_BIT +| nqp::const::BINARY_ENDIAN_LITTLE;
 my constant BIT64 =
   nqp::const::BINARY_SIZE_64_BIT +| nqp::const::BINARY_ENDIAN_LITTLE;
-
-# Turn a Block into a WhateverCode, which guarantees here are no 
-# phasers that need to be taken into account, and there a no
-# return statements
-my sub WC($block is raw) {  # UNCOVERABLE
-    my $wc := nqp::create(WhateverCode);
-    nqp::bindattr(
-      $wc,Code,'$!do',nqp::getattr($block,Code,'$!do')
-    );
-    nqp::bindattr(
-      $wc,Code,'$!signature',nqp::getattr($block,Code,'$!signature')
-    );
-    nqp::bindattr(
-      $wc,Code,'@!compstuff',nqp::getattr($block,Code,'@!compstuff')
-    );
-    $wc
-}
 
 my constant SQLITE1 = 0x66206574694c5153;  # "SQLite f" as 64bit int
 my constant SQLITE2 = 0x00332074616d726f;  # "ormat 3\0" as 64bit int
@@ -137,119 +120,119 @@ my sub path-is-text(str $path) {
     }
 }
 
-my constant &path-exists = WC -> str $_ {
+my constant &path-exists = -> str $_ {
     nqp::stat($_,nqp::const::STAT_EXISTS)
 }
-my constant &path-is-directory = WC -> str $_ {
+my constant &path-is-directory = -> str $_ {
     nqp::stat($_,nqp::const::STAT_ISDIR)
 }
-my constant &path-is-regular-file = WC -> str $_ {
+my constant &path-is-regular-file = -> str $_ {
     nqp::stat($_,nqp::const::STAT_ISREG)
 }
-my constant &path-is-device = WC -> str $_ {
+my constant &path-is-device = -> str $_ {
     nqp::stat($_,nqp::const::STAT_ISDEV)
 }
-my constant &path-is-symbolic-link = WC -> str $_ {
+my constant &path-is-symbolic-link = -> str $_ {
     nqp::stat($_,nqp::const::STAT_ISLNK)
 }
 
-my constant &path-created = WC -> str $_ {
+my constant &path-created = -> str $_ {
     nqp::stat_time($_,nqp::const::STAT_CREATETIME)
 }
-my constant &path-accessed = WC -> str $_ {
+my constant &path-accessed = -> str $_ {
     nqp::stat_time($_,nqp::const::STAT_ACCESSTIME)
 }
-my constant &path-modified = WC -> str $_ {
+my constant &path-modified = -> str $_ {
     nqp::stat_time($_,nqp::const::STAT_MODIFYTIME)
 }
-my constant &path-meta-modified = WC -> str $_ {
+my constant &path-meta-modified = -> str $_ {
     nqp::stat_time($_,nqp::const::STAT_CHANGETIME)
 }
 
-my constant &path-uid = WC -> str $_ {
+my constant &path-uid = -> str $_ {
     nqp::stat($_,nqp::const::STAT_UID)
 }
-my constant &path-gid = WC -> str $_ {
+my constant &path-gid = -> str $_ {
     nqp::stat($_,nqp::const::STAT_GID)
 }
 
-my constant &path-inode = WC -> str $_ {
+my constant &path-inode = -> str $_ {
     nqp::stat($_,nqp::const::STAT_PLATFORM_INODE)
 }
 
-my constant &path-device-number = WC -> str $_ {
+my constant &path-device-number = -> str $_ {
     nqp::stat($_,nqp::const::STAT_PLATFORM_DEV)
 }
 
-my constant &path-mode = WC -> str $_ {
+my constant &path-mode = -> str $_ {
     nqp::stat($_,nqp::const::STAT_PLATFORM_MODE)
 }
 
-my constant &path-hard-links = WC -> str $_ {
+my constant &path-hard-links = -> str $_ {
     nqp::stat($_,nqp::const::STAT_PLATFORM_NLINKS)
 }
 
-my constant &path-filesize = WC -> str $_ {
+my constant &path-filesize = -> str $_ {
     nqp::stat($_,nqp::const::STAT_FILESIZE)
 }
-my constant &path-is-empty = WC -> str $_ {
+my constant &path-is-empty = -> str $_ {
     nqp::iseq_i(nqp::stat($_,nqp::const::STAT_FILESIZE),0)
 }
 
-my constant &path-block-size = WC -> str $_ {
+my constant &path-block-size = -> str $_ {
     nqp::stat($_,nqp::const::STAT_PLATFORM_BLOCKSIZE)
 }
-my constant &path-blocks = WC -> str $_ {
+my constant &path-blocks = -> str $_ {
     nqp::stat($_,nqp::const::STAT_PLATFORM_BLOCKS)
 }
 
-my constant &path-is-readable = WC -> str $_ {
+my constant &path-is-readable = -> str $_ {
     nqp::filereadable($_)
 }
-my constant &path-is-writable = WC -> str $_ {
+my constant &path-is-writable = -> str $_ {
     nqp::filewritable($_)
 }
-my constant &path-is-executable = WC -> str $_ {
+my constant &path-is-executable = -> str $_ {
     nqp::fileexecutable($_)
 }
 
-my constant &path-has-setuid = WC -> str $_ {
+my constant &path-has-setuid = -> str $_ {
     nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),2048)
 }
-my constant &path-has-setgid = WC -> str $_ {
+my constant &path-has-setgid = -> str $_ {
     nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),1024)
 }
-my constant &path-is-sticky = WC -> str $_ {
+my constant &path-is-sticky = -> str $_ {
     nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),512)
 }
 
-my constant &path-is-owner-readable = WC -> str $_ {
+my constant &path-is-owner-readable = -> str $_ {
     nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),256)
 }
-my constant &path-is-owner-writable = WC -> str $_ {
+my constant &path-is-owner-writable = -> str $_ {
     nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),128)
 }
-my constant &path-is-owner-executable = WC -> str $_ {
+my constant &path-is-owner-executable = -> str $_ {
     nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),64)
 }
 
-my constant &path-is-group-readable = WC -> str $_ {
+my constant &path-is-group-readable = -> str $_ {
     nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),32)
 }
-my constant &path-is-group-writable = WC -> str $_ {
+my constant &path-is-group-writable = -> str $_ {
     nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),16)
 }
-my constant &path-is-group-executable = WC -> str $_ {
+my constant &path-is-group-executable = -> str $_ {
     nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),8)
 }
 
-my constant &path-is-world-readable = WC -> str $_ {
+my constant &path-is-world-readable = -> str $_ {
     nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),4)
 }
-my constant &path-is-world-writable = WC -> str $_ {
+my constant &path-is-world-writable = -> str $_ {
     nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),2)
 }
-my constant &path-is-world-executable = WC -> str $_ {
+my constant &path-is-world-executable = -> str $_ {
     nqp::bitand_i(nqp::stat($_,nqp::const::STAT_PLATFORM_MODE),1)
 }
 
