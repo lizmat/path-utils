@@ -3,7 +3,7 @@ use v6.*;  # for nano
 use Test;
 use path-utils;
 
-plan 57;
+plan 58;
 
 my constant POSIX-FILE-MODE = 0o644;
 my constant NQP-FILE-MODE   = 33188;
@@ -109,6 +109,14 @@ else {
      ok path-is-world-readable($dir),   "is $dir world readable";
     nok path-is-world-writable($dir),   "is $dir world writable";
      ok path-is-world-executable($dir), "is $dir world executable";
+}
+
+# https://github.com/lizmat/path-utils/issues/3
+{
+    my $io = $*PROGRAM.sibling(nano);
+    $io.spurt(("x" x 4095) ~ "\n");
+    ok path-is-text($io.absolute), "$io is a text file";
+    LEAVE .unlink with $io;
 }
 
 # vim: expandtab shiftwidth=4

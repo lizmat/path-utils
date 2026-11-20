@@ -85,7 +85,7 @@ my sub path-is-text(str $path) {
         nqp::readfh($fh, $buf, 4096);
         nqp::closefh($fh);
 
-        my int $limit = nqp::elems($buf);
+        my int $limit = nqp::elems($buf) -1;
         my int $printable;
         my int $unprintable;
         my int $i = -1;
