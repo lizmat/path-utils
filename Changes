@@ -1,6 +1,8 @@
 Revision history for path-utils
 
 {{$NEXT}}
+
+0.0.26  2026-11-21T10:13:03+01:00
     - Fix edge case of path-is-text handling, Will Coleda++
 
 0.0.25  2026-06-03T22:47:12+02:00

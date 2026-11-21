@@ -4,7 +4,7 @@
   "specVersion": "1.6",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-06-03T20:47:42+00:00",
+    "timestamp": "2026-11-21T09:13:33+00:00",
     "lifecycles": [
       {
         "phase": "pre-build"
@@ -19,7 +19,7 @@
     "component": {
       "type": "library",
       "mime-type": "text/plain",
-      "bom-ref": "pkg:raku/zef:lizmat/path-utils@0.0.25",
+      "bom-ref": "pkg:raku/zef:lizmat/path-utils@0.0.26",
       "authors": [
         {
           "bom-ref": "ElizabethMattijsen",
@@ -29,7 +29,7 @@
       "publisher": "zef",
       "group": "zef:lizmat",
       "name": "path-utils",
-      "version": "0.0.25",
+      "version": "0.0.26",
       "description": "low-level path introspection utility functions",
       "scope": "required",
       "licenses": [
@@ -41,27 +41,23 @@
           }
         }
       ],
-      "purl": "pkg:raku/zef:lizmat/path-utils@0.0.25",
+      "purl": "pkg:raku/zef:lizmat/path-utils@0.0.26",
       "externalReferences": [
         {
-          "url": "https://github.com/lizmat/path-utils",
+          "url": "https://codeberg.org/lizmat/path-utils",
           "type": "distribution"
         },
         {
-          "url": "https://raku.land/zef:lizmat/path-utils?v=0.0.25",
+          "url": "https://raku.land/zef:lizmat/path-utils?v=0.0.26",
           "type": "documentation"
         },
         {
-          "url": "https://github.com/lizmat/path-utils/issues",
+          "url": "https://codeberg.org/lizmat/path-utils/issues",
           "type": "issue-tracker"
         },
         {
           "url": "https://spdx.org/licenses/Artistic-2.0.json",
           "type": "license"
-        },
-        {
-          "url": "https://github.com/lizmat/path-utils/archive/refs/tags/0.0.25.zip",
-          "type": "source-distribution"
         },
         {
           "url": "mailto:liz@raku.rocks",
@@ -100,7 +96,7 @@
         {
           "type": "library",
           "mime-type": "text/plain",
-          "bom-ref": "pkg:raku/zef:lizmat/SBOM::Raku@0.0.12",
+          "bom-ref": "pkg:raku/zef:lizmat/SBOM::Raku@0.0.14",
           "authors": [
             {
               "bom-ref": "ElizabethMattijsen",
@@ -110,7 +106,7 @@
           "publisher": "zef",
           "group": "zef:lizmat",
           "name": "SBOM::Raku",
-          "version": "0.0.12",
+          "version": "0.0.14",
           "description": "Raku specific SBOM functionality",
           "scope": "required",
           "licenses": [
@@ -122,27 +118,23 @@
               }
             }
           ],
-          "purl": "pkg:raku/zef:lizmat/SBOM::Raku@0.0.12",
+          "purl": "pkg:raku/zef:lizmat/SBOM::Raku@0.0.14",
           "externalReferences": [
             {
-              "url": "https://github.com/lizmat/SBOM-Raku",
+              "url": "https://codeberg.org/lizmat/SBOM-Raku",
               "type": "distribution"
             },
             {
-              "url": "https://raku.land/zef:lizmat/SBOM::Raku?v=0.0.12",
+              "url": "https://raku.land/zef:lizmat/SBOM::Raku?v=0.0.14",
               "type": "documentation"
             },
             {
-              "url": "https://github.com/lizmat/SBOM-Raku/issues",
+              "url": "https://codeberg.org/lizmat/SBOM-Raku/issues",
               "type": "issue-tracker"
             },
             {
               "url": "https://spdx.org/licenses/Artistic-2.0.json",
               "type": "license"
-            },
-            {
-              "url": "https://github.com/lizmat/SBOM-Raku/archive/refs/tags/0.0.12.zip",
-              "type": "source-distribution"
             },
             {
               "url": "mailto:liz@raku.rocks",
@@ -171,7 +163,7 @@
       "publisher": "Rakudo Core Developers",
       "group": "Rakudo Core Developers",
       "name": "Rakudo",
-      "version": "2026.05-63-gc3f317308",
+      "version": "2026.11-25-g4b0d5f46f1",
       "description": "The Rakudo™ Compiler implementing the Raku® Programming Language",
       "scope": "required",
       "licenses": [
@@ -194,7 +186,7 @@
           "type": "issue-tracker"
         },
         {
-          "url": "https://github.com/rakudo/rakudo/archive/c3f317308.zip",
+          "url": "https://github.com/rakudo/rakudo/archive/4b0d5f46f1.zip",
           "type": "source-distribution"
         },
         {
@@ -215,7 +207,7 @@
       "publisher": "The MoarVM Team",
       "group": "The MoarVM Team",
       "name": "Moar",
-      "version": "2026.05-8-g7b802a101",
+      "version": "2026.11-11-g5249be7aa",
       "description": "Short for \"Metamodel On A Runtime\", MoarVM is a modern virtual machine built for the Rakudo compiler and the NQP Compiler Toolchain.",
       "scope": "required",
       "licenses": [
@@ -242,7 +234,7 @@
           "type": "chat"
         },
         {
-          "url": "https://github.com/MoarVM/MoarVM.git/archive/refs/tags/7b802a101.zip",
+          "url": "https://github.com/MoarVM/MoarVM.git/archive/refs/tags/5249be7aa.zip",
           "type": "source-distribution"
         }
       ]
@@ -250,24 +242,20 @@
   ],
   "externalReferences": [
     {
-      "url": "https://github.com/lizmat/path-utils",
+      "url": "https://codeberg.org/lizmat/path-utils",
       "type": "distribution"
     },
     {
-      "url": "https://raku.land/zef:lizmat/path-utils?v=0.0.25",
+      "url": "https://raku.land/zef:lizmat/path-utils?v=0.0.26",
       "type": "documentation"
     },
     {
-      "url": "https://github.com/lizmat/path-utils/issues",
+      "url": "https://codeberg.org/lizmat/path-utils/issues",
       "type": "issue-tracker"
     },
     {
       "url": "https://spdx.org/licenses/Artistic-2.0.json",
       "type": "license"
-    },
-    {
-      "url": "https://github.com/lizmat/path-utils/archive/refs/tags/0.0.25.zip",
-      "type": "source-distribution"
     },
     {
       "url": "mailto:liz@raku.rocks",
@@ -282,7 +270,7 @@
       ]
     },
     {
-      "ref": "pkg:raku/zef:lizmat/SBOM::Raku@0.0.12",
+      "ref": "pkg:raku/zef:lizmat/SBOM::Raku@0.0.14",
       "dependsOn": [
         "Rakudo"
       ]

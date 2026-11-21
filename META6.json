@@ -16,11 +16,11 @@
   "raku": "6.d",
   "resources": [
   ],
-  "source-url": "https://github.com/lizmat/path-utils.git",
+  "source-url": "https://codeberg.org/lizmat/path-utils.git",
   "support": {
-    "bugtracker": "https://github.com/lizmat/path-utils/issues",
+    "bugtracker": "https://codeberg.org/lizmat/path-utils/issues",
     "email": "liz@raku.rocks",
-    "source": "https://github.com/lizmat/path-utils.git"
+    "source": "https://codeberg.org/lizmat/path-utils.git"
   },
   "tags": [
     "IO",
@@ -41,5 +41,5 @@
   ],
   "test-depends": [
   ],
-  "version": "0.0.25"
+  "version": "0.0.26"
 }
